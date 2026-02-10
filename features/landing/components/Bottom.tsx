@@ -1,0 +1,22 @@
+import Image from "next/image";
+
+export default function BottomContainer() {
+  return (
+    <div className="flex flex-col items-center w-full pt-2 mt-5 border-t border-white/5 max-h-5">
+      <p className="text-[10px] text-gray-500 uppercase tracking-[0.5em]">
+        Powered by the Future of Web3 Audio
+      </p>
+      <div className="flex items-center gap-8 transition-opacity opacity-40 hover:opacity-100">
+        <div className="flex items-center">
+          <Image
+            src="/images/audius-logo.svg"
+            alt="Audius Logo"
+            width={100}
+            height={100}
+            className="text-white"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

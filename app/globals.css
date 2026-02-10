@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-primary: #f91fc3;
+  --color-background-dark: #230f1e;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.glass-panel {
+  background: rgba(35, 15, 30, 0.45);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(249, 31, 195, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.text-glow {
+  text-shadow: 0 0 25px rgba(249, 31, 195, 0.7);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.btn-glow {
+  box-shadow: 0 0 20px rgba(249, 31, 195, 0.35);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 35px rgba(249, 31, 195, 0.7);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.hero-headline {
+  letter-spacing: -0.02em;
+  line-height: 0.95;
 }
