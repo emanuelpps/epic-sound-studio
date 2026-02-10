@@ -6,14 +6,14 @@ export default function BottomContainer() {
       <p className="text-[10px] text-gray-500 uppercase tracking-[0.5em]">
         Powered by the Future of Web3 Audio
       </p>
-      <div className="flex items-center gap-8 transition-opacity opacity-40 hover:opacity-100">
+      <div className="flex items-center gap-8 transition-opacity  hover:opacity-100 text-white">
         <div className="flex items-center">
           <Image
             src="/images/audius-logo.svg"
             alt="Audius Logo"
             width={100}
             height={100}
-            className="text-white"
+            className=""
           />
         </div>
       </div>
