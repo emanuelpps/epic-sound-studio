@@ -1,15 +1,25 @@
 import ButtonFactory from "@/shared/components/ui/Buttons/ButtonFactory";
-import CTAButton from "@/shared/components/ui/Buttons/CTAButton";
-import HeroButton from "@/shared/components/ui/Buttons/HeroButton";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 export default function Buttons() {
   return (
     <div className="flex flex-col items-center w-full max-w-lg gap-6 md:flex-row mb-2">
-      <HeroButton isLink href="/app">
-        Explore Studio
-      </HeroButton>
-      <CTAButton>Learn More</CTAButton>
+      <ButtonFactory variant="primary">
+        <Link href={"/more"}>
+          <span className="absolute inset-0 transition-transform duration-1000 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full" />
+          <span className="relative z-10 tracking-widest uppercase">
+            Explore Studio
+          </span>
+        </Link>
+      </ButtonFactory>
+      <ButtonFactory variant="secondary">
+        <Link href={"/more"}>
+          <span className="flex justify-center items-center h-full w-full gap-1">
+            Learn More
+            <GoArrowRight />
+          </span>
+        </Link>
+      </ButtonFactory>
     </div>
   );
 }
