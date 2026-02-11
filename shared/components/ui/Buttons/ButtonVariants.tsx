@@ -1,4 +1,4 @@
-type ButtonVariant = "primary" | "secondary" | "tertiary";
+import { ButtonVariant } from "./button.type";
 
 interface ButtonVariantsProps extends React.ComponentProps<"button"> {
   variant: ButtonVariant;
@@ -23,6 +23,7 @@ export default function ButtonVariants({
   const classes = `${buttonVariants[variant]} ${className}`;
 
   return (
+
     <button className={classes} {...props}>
       {children}
     </button>

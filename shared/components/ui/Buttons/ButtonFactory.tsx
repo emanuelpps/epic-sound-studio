@@ -1,7 +1,8 @@
+import { ButtonVariant } from "./button.type";
 import ButtonVariants from "./ButtonVariants";
 
 
-type ButtonVariant = "primary" | "secondary" | "tertiary";
+
 
 interface ButtonFactoryProps extends React.ComponentProps<"button"> {
   variant: ButtonVariant;
