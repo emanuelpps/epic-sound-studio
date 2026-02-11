@@ -1,14 +1,17 @@
+import Link from "next/link";
 import { ButtonVariant } from "./button.type";
 
 interface ButtonVariantsProps extends React.ComponentProps<"button"> {
   variant: ButtonVariant;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  link?: string;
 }
 
 export default function ButtonVariants({
   variant,
   className = "",
   children,
+  link,
   ...props
 }: ButtonVariantsProps) {
   const buttonVariants: Record<ButtonVariant, string> = {
@@ -22,8 +25,15 @@ export default function ButtonVariants({
 
   const classes = `${buttonVariants[variant]} ${className}`;
 
-  return (
+  if (link) {
+    return (
+      <Link href={link} className={classes}>
+        {children}
+      </Link>
+    );
+  }
 
+  return (
     <button className={classes} {...props}>
       {children}
     </button>

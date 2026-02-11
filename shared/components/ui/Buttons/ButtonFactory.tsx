@@ -6,6 +6,7 @@ import ButtonVariants from "./ButtonVariants";
 
 interface ButtonFactoryProps extends React.ComponentProps<"button"> {
   variant: ButtonVariant;
+  link?: string;
 }
 
 export default function ButtonFactory({
