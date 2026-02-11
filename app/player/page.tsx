@@ -1,5 +1,5 @@
-import Player from "@/features/player/Player";
+import PlayerShell from "./components/PlayerShell";
 
-export default function page() {
-  return <Player />;
+export default function Page() {
+  return <PlayerShell />;
 }
