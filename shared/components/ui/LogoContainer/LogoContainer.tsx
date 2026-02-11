@@ -4,11 +4,15 @@ import { ComponentProps } from "react";
 type LogoContainerProps = ComponentProps<"div"> & {
   width: number;
   height: number;
+  src: string;
+  alt?: string;
 };
 
 export default function LogoContainer({
   width,
   height,
+  src,
+  alt = "Logo",
   className = "",
   ...props
 }: LogoContainerProps) {
@@ -19,10 +23,10 @@ export default function LogoContainer({
     >
       <div className="relative">
         <div className="absolute inset-0 bg-[#f91fc3] blur-2xl opacity-30 rounded-full group-hover:opacity-60 transition-opacity duration-700" />
-        <div className={`relative bg-black/50 rounded-full ${className}`}>
+        <div className={`relative ${className}`}>
           <Image
-            src="/images/epic-sound-studio-logo.svg"
-            alt="Epic Sound Studio logo"
+            src={src}
+            alt={alt}
             width={width}
             height={height}
             priority
