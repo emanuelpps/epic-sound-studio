@@ -1,12 +1,20 @@
-import { ReactNode } from "react";
+import { ComponentProps } from "react";
 
-interface GlassContainerProps {
-  children: ReactNode;
-}
+type GlassContainerProps = ComponentProps<"div">;
 
-export default function GlassContainer({ children }: GlassContainerProps) {
+export default function GlassContainer({
+  children,
+  className = "",
+  ...props
+}: GlassContainerProps) {
+  const classes = `
+    flex flex-col items-center text-center
+    glass-panel rounded-3xl
+    ${className}
+  `;
+
   return (
-    <div className="flex flex-col items-center p-8 text-center glass-panel rounded-3xl md:p-20">
+    <div className={classes} {...props}>
       {children}
     </div>
   );

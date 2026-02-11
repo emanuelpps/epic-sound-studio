@@ -1,11 +1,12 @@
-import GlassContainer from "@/shared/components/ui/GlassContainer/GlassContainer";
 import Logo from "./components/Logo";
+import Container from "./components/Container";
+import LandingBackground from "@/shared/components/ui/Background/LandingBackground";
 
 export default function More() {
   return (
-    <section className="flex flex-col">
+    <LandingBackground className="max-w-7xl">
       <Logo />
-      <GlassContainer>logo</GlassContainer>
-    </section>
+      <Container />
+    </LandingBackground>
   );
 }
