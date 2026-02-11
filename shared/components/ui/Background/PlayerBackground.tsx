@@ -2,13 +2,13 @@ import GlowBackground from "@/shared/components/ui/Background/GlowBackground";
 import { ComponentProps } from "react";
 import CraftedBy from "./CraftedBy";
 
-type LandingBackgroundProps = ComponentProps<"main">;
+type PlayerBackgroundProps = ComponentProps<"main">;
 
-export default function LandingBackground({
+export default function PlayerBackground({
   children,
   className = "",
   ...props
-}: LandingBackgroundProps) {
+}: PlayerBackgroundProps) {
   const childrenClasses = `${className}`;
   return (
     <main
@@ -20,19 +20,6 @@ export default function LandingBackground({
       {...props}
     >
       <div className="absolute inset-0 z-0">
-        <video
-          className="w-full h-full object-cover opacity-60 blur-[2px] scale-105"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-          <source
-            src="/videos/background_Motion_Graphic.mp4"
-            type="video/mp4"
-          />
-        </video>
-
         <div className="absolute inset-0 bg-gradient-to-b from-[#230f1e]/80 via-transparent to-[#230f1e]/90 z-10" />
       </div>
       <GlowBackground />
