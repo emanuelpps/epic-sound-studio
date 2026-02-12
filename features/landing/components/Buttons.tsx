@@ -6,7 +6,7 @@ export default function Buttons() {
       <ButtonFactory variant="primary" link="/player">
         <span className="absolute inset-0 transition-transform duration-1000 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:translate-x-full" />
         <span className="relative z-10 tracking-widest uppercase">
-          Explore Studio
+          Listen Now
         </span>
       </ButtonFactory>
       <ButtonFactory variant="secondary" link="/more">

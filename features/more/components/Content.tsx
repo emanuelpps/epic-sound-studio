@@ -14,7 +14,7 @@ interface ContentProps {
 function ContentCard({ index, icon, title, description }: ContentProps) {
   return (
     <div
-      className={`${index === 0 ? "border-none" : "border-l-[1px]"} border-[#f91fc333] shadow-[0_8px_32px_rgba(0, 0, 0, 0.4)] p-6 flex flex-col text-left hover:scale-[1.02] transition-transform duration-300 w-full gap-5`}
+      className={`${index === 0 ? "border-none" : "border-l-[1px]"} border-[#f91fc333] shadow-[0_8px_32px_rgba(0, 0, 0, 0.4)] p-6 flex flex-col text-left hover:scale-[1.02] transition-transform duration-300 w-full gap-5 leading-loose tracking-wider`}
     >
       <div className="text-3xl text-[#f91fc3]">{icon}</div>
       <h3 className="text-xl font-bold text-white">{title}</h3>

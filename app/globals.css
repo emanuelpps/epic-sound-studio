@@ -1,8 +1,11 @@
+@import "./fonts.css";
 @import "tailwindcss";
 
 @theme {
   --color-primary: #f91fc3;
   --color-background-dark: #230f1e;
+  --font-display: "ClashDisplay", system-ui, sans-serif;
+  --font-body: "Supreme", system-ui, sans-serif;
 }
 
 .glass-panel {
