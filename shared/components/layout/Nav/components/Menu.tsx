@@ -36,14 +36,11 @@ export default function Menu() {
           <button
             key={item.key}
             onClick={() => setView(item.key)}
-            className={`
-              group flex items-center gap-3 w-full ml-2 px-6 py-4 rounded-xl
-              transition-all duration-300
-              ${
-                active
-                  ? "bg-[#f91fc3]/20 text-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.25)]"
-                  : "text-zinc-400 hover:text-white hover:bg-white/5"
-              }
+            className={`cursor-pointer group flex items-center gap-3 w-full ml-2 px-6 py-4 rounded-xl transition-all duration-300 ${
+              active
+                ? "bg-[#f91fc3]/20 text-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.25)]"
+                : "text-zinc-400 hover:text-white hover:bg-white/5"
+            }
             `}
           >
             <Icon
