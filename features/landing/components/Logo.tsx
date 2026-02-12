@@ -5,7 +5,7 @@ export default function Logo() {
     <LogoContainer
       width={200}
       height={200}
-      className="bg-black/50 rounded-full border border-[#f91fc3]/40 px-8 py-4"
+      className="bg-black/50 rounded-4xl border border-[#f91fc3]/40 px-8 py-4"
       src="/images/epic-sound-studio-logo.svg"
     />
   );

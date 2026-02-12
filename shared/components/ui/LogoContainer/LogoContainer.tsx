@@ -22,15 +22,9 @@ export default function LogoContainer({
       {...props}
     >
       <div className="relative">
-        <div className="absolute inset-0 bg-[#f91fc3] blur-2xl opacity-30 rounded-full group-hover:opacity-60 transition-opacity duration-700" />
+        <div className="absolute inset-0 bg-[#f91fc3] blur-2xl opacity-30 group-hover:opacity-60 transition-opacity duration-700" />
         <div className={`relative ${className}`}>
-          <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            priority
-          />
+          <Image src={src} alt={alt} width={width} height={height} priority />
         </div>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import { create } from "zustand";
 
-type View = "home" | "search" | "library";
+export type View = "home" | "search" | "library" | "likes";
 
-export const useUIStore = create<{
+type UIState = {
   view: View;
   setView: (v: View) => void;
-}>((set) => ({
+};
+
+export const useUIStore = create<UIState>((set) => ({
   view: "home",
   setView: (v) => set({ view: v }),
 }));
