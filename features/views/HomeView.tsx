@@ -1,7 +1,5 @@
+import Home from "../home/Home";
+
 export default function HomeView() {
-  return (
-    <div className="flex justify-center items-center">
-      HomeView
-    </div>
-  );
+  return <Home />;
 }
