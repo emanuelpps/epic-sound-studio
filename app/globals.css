@@ -1,6 +1,12 @@
 @import "./fonts.css";
 @import "tailwindcss";
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a21caf #0b0610;
+}
+
+
 @theme {
   --color-primary: #f91fc3;
   --color-background-dark: #230f1e;
@@ -32,4 +38,38 @@
 .hero-headline {
   letter-spacing: -0.02em;
   line-height: 0.95;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0610;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+      #ff2bd6,
+      #a21caf);
+  border-radius: 999px;
+  border: 2px solid #0b0610;
+  box-shadow: 0 0 12px rgba(255, 0, 200, 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+      #ff4de1,
+      #c026d3);
+  box-shadow: 0 0 16px rgba(255, 0, 200, 0.6);
+}
+
+.neon-icon {
+  color: #f91fc3;
+  filter:
+    drop-shadow(0 0 4px #f91fc3)
+    drop-shadow(0 0 10px #f91fc3)
+    drop-shadow(0 0 18px #f91fc3);
 }

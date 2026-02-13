@@ -1,11 +1,11 @@
 import SearchBar from "@/shared/components/layout/SearchBar/SearchBar";
-import Featured from "@/shared/components/ui/Featured/Featured";
+import { HeroCard } from "@/shared/components/ui/Cards/HeroCard";
 
 export default function Main() {
   return (
-    <main className="overflow-y-auto p-6 flex flex-col gap-6">
+    <main className="flex flex-col gap-6">
       <SearchBar />
-      <Featured />
+      <HeroCard />
     </main>
   );
 }

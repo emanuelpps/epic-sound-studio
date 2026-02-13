@@ -13,9 +13,7 @@ export default function PlayerBackground({
   return (
     <main
       className={`
-        bg-[#230f1e] text-white h-screen
-        relative overflow-hidden
-        font-display
+        bg-[#230f1e] text-white overflow-x-hidden relative overflow-hidden font-display
       `}
       {...props}
     >
