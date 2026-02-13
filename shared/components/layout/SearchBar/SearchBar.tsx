@@ -8,7 +8,7 @@ export default function SearchBar() {
         <input
           type="text"
           placeholder="Search tracks, artists, vibes..."
-          className="w-full bg-transparent outline-none text-white placeholder:text-white/40 text-lg tracking-wide"
+          className="w-full bg-transparent outline-none text-white placeholder:text-white/40 text-md tracking-wide"
         />
       </div>
     </section>

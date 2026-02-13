@@ -5,8 +5,8 @@ import Main from "./components/Main";
 
 export default function Home() {
   return (
-    <PlayerBackground className="h-full overflow-hidden">
-      <div className="grid grid-cols-[1fr_360px] grid-rows-[1fr_280px] h-full">
+    <PlayerBackground className="">
+      <div className="grid grid-cols-[1fr_460px] grid-rows-[550px_550px] ">
         <Main />
         <Aside />
         <BottomSection />
