@@ -1,6 +1,7 @@
 import { TrackCard } from "@/shared/components/ui/Cards/TrackCard";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import MusicGenresSection from "./MusicGenreSection";
 
 export default function BottomSection() {
   const trendingTracks = [
@@ -42,7 +43,7 @@ export default function BottomSection() {
   ];
 
   return (
-    <section className="col-span-2 mb-12 rounded-3xl bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
+    <section className="col-span-2 rounded-3xl bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
       <div className="flex justify-between w-full">
         <div className="mb-6 relative pl-5 flex flex-col">
           <span className="absolute left-0 top-1 bottom-1 w-[6px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />

@@ -2,6 +2,7 @@ import PlayerBackground from "@/shared/components/ui/Background/PlayerBackground
 import Aside from "./components/Aside";
 import BottomSection from "./components/BottomSection";
 import Main from "./components/Main";
+import MusicGenresSection from "./components/MusicGenreSection";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
         <Main />
         <Aside />
         <BottomSection />
+        <MusicGenresSection />
       </div>
     </PlayerBackground>
   );
