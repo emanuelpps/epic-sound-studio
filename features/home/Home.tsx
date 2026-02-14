@@ -6,7 +6,7 @@ import Main from "./components/Main";
 export default function Home() {
   return (
     <PlayerBackground className="">
-      <div className="grid grid-cols-[1fr_auto] grid-rows-[500px_auto] gap-4 p-6">
+      <div className="grid grid-cols-[1fr_350px] grid-rows-[500px_auto] gap-4 p-6">
         <Main />
         <Aside />
         <BottomSection />

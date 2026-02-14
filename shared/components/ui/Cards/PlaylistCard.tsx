@@ -6,7 +6,7 @@ interface PlaylistMiniCardProps {
   image: string;
   title: string;
   tracks: number;
-  likes: string;
+  likes: number;
 }
 export function PlaylistMiniCard({
   image,
