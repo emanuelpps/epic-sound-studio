@@ -16,7 +16,7 @@ export default function CraftedBy() {
           alt="EP logo"
           width={20}
           height={20}
-          className="opacity-80 rounded-xl cover"
+          className="opacity-80 rounded-xl cover p-0.5 contain"
         />
         <Link
           href="https://emanuelp-portfolio.vercel.app/"
