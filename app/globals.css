@@ -73,3 +73,12 @@
     drop-shadow(0 0 10px #f91fc3)
     drop-shadow(0 0 18px #f91fc3);
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
