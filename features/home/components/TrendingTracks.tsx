@@ -1,9 +1,8 @@
 import { TrackCard } from "@/shared/components/ui/Cards/TrackCard";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
-import MusicGenresSection from "./MusicGenreSection";
 
-export default function BottomSection() {
+export default function TrendingTracks() {
   const trendingTracks = [
     {
       id: "t1",
