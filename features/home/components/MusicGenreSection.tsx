@@ -1,34 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
-type Genre = {
-  name: string;
-  count?: number;
-};
+import { useTrendingTracks } from "@/queries/useTrendingTracks";
+import { useMemo } from "react";
 
 export default function MusicGenresSection() {
-  const [genres, setGenres] = useState<Genre[]>([]);
+  const { data: tracks, isLoading } = useTrendingTracks();
 
-  useEffect(() => {
-    async function loadGenres() {
-      const data: Genre[] = [
-        { name: "Electronic", count: 1200 },
-        { name: "House", count: 980 },
-        { name: "Techno", count: 760 },
-        { name: "Synthwave", count: 540 },
-        { name: "Ambient", count: 430 },
-        { name: "Lo-Fi", count: 620 },
-        { name: "Drum & Bass", count: 390 },
-        { name: "Trap", count: 710 },
-        { name: "Chill", count: 660 },
-      ];
+  const genres = useMemo(() => {
+    if (!tracks) return [];
 
-      setGenres(data);
-    }
+    const map = new Map<string, number>();
 
-    loadGenres();
-  }, []);
+    tracks.forEach((track) => {
+      if (!track.genre) return;
+
+      map.set(track.genre, (map.get(track.genre) || 0) + 1);
+    });
+
+    return Array.from(map.entries()).map(([name, count]) => ({
+      name,
+      count,
+    }));
+  }, [tracks]);
+
+  if (isLoading) return null;
+  if (!genres.length) return null;
 
   return (
     <section className="col-span-2 rounded-3xl bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
@@ -40,10 +36,8 @@ export default function MusicGenresSection() {
           </h2>
           <p className="text-sm text-white/50 mt-1">Discover tracks by style</p>
         </div>
-        <button className="text-xs uppercase tracking-wider text-white/60 border border-white/10 px-4 py-2 rounded-full hover:border-[#f91fc3]/40 hover:text-white transition">
-          Explore all
-        </button>
       </div>
+
       <div className="flex flex-wrap gap-4">
         {genres.map((g) => (
           <button
@@ -60,12 +54,6 @@ export default function MusicGenresSection() {
             "
           >
             <span className="relative z-10">{g.name}</span>
-
-            {g.count && (
-              <span className="ml-2 text-xs text-white/40 group-hover:text-white/70">
-                {g.count}
-              </span>
-            )}
             <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition bg-[radial-gradient(circle_at_center,rgba(249,31,195,0.18),transparent_70%)]" />
           </button>
         ))}

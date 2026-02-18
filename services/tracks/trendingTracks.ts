@@ -13,7 +13,7 @@ export async function fetchTrendingTracks(): Promise<AudiusTrack[]> {
   if (!host) throw new Error("No host");
 
   const res = await fetch(
-    `${host}/v1/tracks/trending?limit=20&app_name=${process.env.APP_NAME}`
+    `${host}/v1/tracks/trending?limit=100&app_name=${process.env.APP_NAME}`
   );
 
   if (!res.ok) throw new Error("Tracks error");

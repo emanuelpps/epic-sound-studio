@@ -59,7 +59,7 @@ export default function TrendingTracks() {
         ref={scrollerRef}
         className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar"
       >
-        {uiTracks.slice(1).map((t) => (
+        {uiTracks.slice(1, 20).map((t) => (
           <div key={t.id} className="min-w-[20%]">
             <TrackCard title={t.title} artist={t.artist} image={t.artwork} />
           </div>
