@@ -7,7 +7,8 @@ import { TrackCard } from "@/shared/components/ui/Cards/TrackCard";
 import { TrendingSectionSkeleton } from "@/shared/components/ui/Skeletons/TrendingSelectionSkeleton";
 import { IoFlameOutline } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FiHeart } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
+import formatNumber from "@/utils/formatNumber";
 
 export default function UndergroundTrendingTracks() {
   const { data, isLoading, error } = useUndergroundTrendingTracks();
@@ -62,20 +63,25 @@ export default function UndergroundTrendingTracks() {
       </div>
       <div
         ref={scrollerRef}
-        className="flex gap-6 overflow-x-auto pt-6 scroll-smooth no-scrollbar pb-2 z-5"
+        className="flex gap-6 overflow-x-auto pt-6 scroll-smooth no-scrollbar pb-6 pl-4"
       >
         {uiTracks.map((t, i) => (
-          <div key={t.id} className="relative min-w-[220px] z-20 group">
-            <div className="absolute -top-3 -left-3 z-20 h-8 w-8 rounded-full bg-black border border-[#f91fc3]/60 text-xs text-white flex items-center justify-center shadow-[0_0_14px_rgba(249,31,195,0.6)]">
+          <div key={t.id} className="relative min-w-[220px] group">
+            <div className="absolute -top-2 left-0 translate-x-[-40%] z-30 h-8 w-8 rounded-full bg-black border border-[#f91fc3]/60 text-xs text-white flex items-center justify-center shadow-[0_0_14px_rgba(249,31,195,0.6)]">
               #{i + 1}
             </div>
             <TrackCard title={t.title} artist={t.artist} image={t.artwork} />
-            <div className="mt-3 text-xs text-white/50 flex justify-between px-1 opacity-80 group-hover:opacity-100 transition">
-              <span>{t.genre}</span>
-              <span className="text-[#f91fc3] flex justify-center items-center gap-2">
-                {t.plays}
-                <FiHeart size={10} />
-              </span>
+            <div className="mt-3 text-xs text-white/50 px-1 opacity-80 group-hover:opacity-100 transition">
+              <div className="flex items-center justify-between">
+                <span className="truncate">{t.genre}</span>
+                <div className="flex items-center gap-3">
+                  <span>{formatNumber(t.plays)} plays</span>
+                  <span className="flex items-center gap-1 text-[#f91fc3]">
+                    {formatNumber(t.likes)}
+                    <FaHeart size={10} />
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         ))}

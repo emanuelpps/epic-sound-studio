@@ -23,7 +23,7 @@ export function TrackCard({ image, title, artist }: TrackCardProps) {
         </button>
       </div>
       <div className="mt-3">
-        <p className="text-sm text-white font-medium">{title}</p>
+        <p className="text-sm text-white font-medium truncate">{title}</p>
         <p className="text-xs text-gray-400">{artist}</p>
       </div>
     </div>
