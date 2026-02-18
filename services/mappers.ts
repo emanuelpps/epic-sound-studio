@@ -1,18 +1,20 @@
-import { AudiusTrack } from "./tracks/types";
+import { AudiusTrack, UiTrack } from "./tracks/types";
 
-export interface UITrack {
-  id: string;
-  title: string;
-  artist: string;
-  cover: string;
-  description?: string;
-}
 
-export function mapTrackToUI(track: AudiusTrack): UITrack {
+export function mapTrackToUI(track: AudiusTrack): UiTrack {
   return {
     id: track.id,
     title: track.title,
-    artist: track.user.name,
-    cover: track.artwork["480x480"],
+    artist: track.user?.name ?? "Unknown Artist",
+
+    artwork:
+      track.artwork?.["480x480"] ||
+      track.artwork?.["150x150"] ||
+      "",
+
+    duration: track.duration ?? 0,
+    plays: track.play_count ?? 0,
+    likes: track.favorite_count ?? 0,
+    genre: track.genre ?? "Unknown",
   };
 }

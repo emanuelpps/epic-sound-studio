@@ -7,7 +7,7 @@ interface TrackCardProps {
 }
 export function TrackCard({ image, title, artist }: TrackCardProps) {
   return (
-    <div className="group w-52">
+    <div className="group w-52 cursor-pointer">
       <div className="relative rounded-xl overflow-hidden">
         <Image
           alt={title}
