@@ -9,7 +9,7 @@ import TrendingTracks from "./components/TrendingTracks";
 export default function Home() {
   return (
     <PlayerBackground className="">
-      <div className="grid grid-cols-[1fr_350px] grid-rows-[500px_auto] gap-4 p-6">
+      <div className="grid grid-cols-[1fr_350px] grid-rows-[580px_auto] gap-4 p-6">
         <Main />
         <Aside />
         <TrendingTracks />

@@ -27,7 +27,7 @@ export interface AudiusTrack {
 
   duration: number;
   play_count: number;
-  favorite_count: number; // likes
+  favorite_count: number;
   repost_count: number;
 
   downloadable: boolean;
@@ -45,6 +45,7 @@ export interface AudiusTrack {
 // =============================
 
 export interface UiTrack {
+  description: string | undefined;
   id: string;
   title: string;
   artist: string;

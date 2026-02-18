@@ -8,7 +8,7 @@ interface Props {
 
 export function GlowSkeleton({ className = "" }: Props) {
   return (
-    <div className={`relative overflow-hidden rounded-xl ${className}`}>
+    <div className={`relative overflow-hidden rounded-xl pointer-events-none ${className}`}>
       <div className="absolute inset-0 bg-[#1a0f1f]" />
       <motion.div
         className="absolute inset-0"

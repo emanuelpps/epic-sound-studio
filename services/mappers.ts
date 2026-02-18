@@ -1,11 +1,12 @@
 import { AudiusTrack, UiTrack } from "./tracks/types";
 
-
 export function mapTrackToUI(track: AudiusTrack): UiTrack {
   return {
     id: track.id,
     title: track.title,
     artist: track.user?.name ?? "Unknown Artist",
+
+    description: track.description ?? undefined,
 
     artwork:
       track.artwork?.["480x480"] ||
