@@ -1,13 +1,21 @@
+import { handlePlay } from "@/lib/functions/handlePlay";
+import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 
 interface TrackCardProps {
+  trackId: string;
   image: string;
   title: string;
   artist: string;
 }
-export function TrackCard({ image, title, artist }: TrackCardProps) {
+export function TrackCard({ trackId, image, title, artist }: TrackCardProps) {
+  const play = usePlayerStore((s) => s.play);
+
   return (
-    <div className="group w-52 cursor-pointer">
+    <div
+      className="group w-52 cursor-pointer"
+      onClick={() => handlePlay(trackId, title, artist, play)}
+    >
       <div className="relative rounded-xl overflow-hidden">
         <Image
           alt={title}

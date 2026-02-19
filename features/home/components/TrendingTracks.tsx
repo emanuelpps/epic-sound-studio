@@ -61,7 +61,7 @@ export default function TrendingTracks() {
       >
         {uiTracks.slice(1, 20).map((t) => (
           <div key={t.id} className="min-w-[20%]">
-            <TrackCard title={t.title} artist={t.artist} image={t.artwork} />
+            <TrackCard trackId={t.id} title={t.title} artist={t.artist} image={t.artwork} />
           </div>
         ))}
       </div>

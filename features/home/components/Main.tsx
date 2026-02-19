@@ -24,6 +24,7 @@ export default function HomeView() {
     <main className="flex flex-col gap-6">
       <SearchBar />
       <HeroCard
+        trackId={ui.id}
         title={ui.title}
         artist={ui.artist}
         cover={ui.artwork}

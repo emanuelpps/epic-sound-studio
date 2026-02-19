@@ -8,7 +8,7 @@ import { TrendingSectionSkeleton } from "@/shared/components/ui/Skeletons/Trendi
 import { IoFlameOutline } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import formatNumber from "@/utils/formatNumber";
+import formatNumber from "@/lib/utils/formatNumber";
 
 export default function UndergroundTrendingTracks() {
   const { data, isLoading, error } = useUndergroundTrendingTracks();
@@ -70,7 +70,12 @@ export default function UndergroundTrendingTracks() {
             <div className="absolute -top-2 left-0 translate-x-[-40%] z-30 h-8 w-8 rounded-full bg-black border border-[#f91fc3]/60 text-xs text-white flex items-center justify-center shadow-[0_0_14px_rgba(249,31,195,0.6)]">
               #{i + 1}
             </div>
-            <TrackCard title={t.title} artist={t.artist} image={t.artwork} />
+            <TrackCard
+              trackId={t.id}
+              title={t.title}
+              artist={t.artist}
+              image={t.artwork}
+            />
             <div className="mt-3 text-xs text-white/50 px-1 opacity-80 group-hover:opacity-100 transition">
               <div className="flex items-center justify-between">
                 <span className="truncate">{t.genre}</span>

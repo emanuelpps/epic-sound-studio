@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-interface Track {
-  id: string;
+export interface Track {
+  trackId: string;
   title: string;
   artist: string;
   url: string;
@@ -11,6 +11,14 @@ interface PlayerState {
   currentTrack: Track | null;
   isPlaying: boolean;
   volume: number;
+  isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
+  progress: number;
+  currentTime: number;
+  duration: number;
+  setProgress: (p: number) => void;
+  setDuration: (d: number) => void;
+  setCurrentTime: (t: number) => void;
 
   play: (track: Track) => void;
   toggle: () => void;
@@ -21,6 +29,14 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   currentTrack: null,
   isPlaying: false,
   volume: 0.8,
+  isLoading: false,
+  setIsLoading: (loading) => set({ isLoading: loading }),
+  progress: 0,
+  currentTime: 0,
+  duration: 0,
+  setProgress: (p) => set({ progress: p }),
+  setDuration: (d) => set({ duration: d }),
+  setCurrentTime: (t) => set({ currentTime: t }),
 
   play: (track) =>
     set({

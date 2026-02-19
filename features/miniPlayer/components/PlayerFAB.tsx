@@ -3,9 +3,10 @@
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
 import { PlayerProgressRing } from "./PlayerProgressRing";
+import { DispatcherEvent } from "next/dist/next-devtools/dev-overlay/shared";
 
 interface Props {
-  onExpand: () => void;
+  onExpand: () => Dispatch<SetStateAction<boolean>>;
 }
 
 export function PlayerFAB({ onExpand }: Props) {

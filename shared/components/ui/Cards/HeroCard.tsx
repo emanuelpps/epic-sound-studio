@@ -1,14 +1,26 @@
+import { handlePlay } from "@/lib/functions/handlePlay";
+import { getTrackStreamUrl } from "@/services/tracks/streamTrack";
+import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 
 interface Props {
+  trackId: string;
   title: string;
   artist: string;
   cover: string;
   description?: string;
 }
 
-export function HeroCard({ title, artist, cover, description }: Props) {
+export function HeroCard({
+  trackId,
+  title,
+  artist,
+  cover,
+  description,
+}: Props) {
+  const play = usePlayerStore((s) => s.play);
+
   return (
     <div className="relative rounded-3xl overflow-hidden border border-fuchsia-500/20 h-full w-full flex flex-col justify-end p-10 bg-black">
       <Image
@@ -32,12 +44,13 @@ export function HeroCard({ title, artist, cover, description }: Props) {
           {artist}
         </p>
         {description && (
-          <p className="mt-4 text-white/60 max-w-xl">
-            {description}
-          </p>
+          <p className="mt-4 text-white/60 max-w-xl">{description}</p>
         )}
         <div className="mt-8 flex gap-4 items-center">
-          <button className="px-8 py-3 rounded-full bg-[#f91fc3] text-black font-semibold hover:scale-105 transition shadow-[0_0_30px_rgba(249,31,195,0.6)]">
+          <button
+            className="px-8 py-3 rounded-full bg-[#f91fc3] text-black font-semibold hover:scale-105 transition shadow-[0_0_30px_rgba(249,31,195,0.6)]"
+            onClick={() => handlePlay(trackId, title, artist, play)}
+          >
             ▶ Listen Now
           </button>
           <button className="w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex justify-center items-center transition">

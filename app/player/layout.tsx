@@ -1,5 +1,6 @@
 import { MiniPlayer } from "@/features/miniPlayer/MiniPlayer";
 import NavBar from "@/shared/components/layout/Nav/NavBar";
+import { AudioEngine } from "@/shared/components/ui/AudioEngine/AudioEngine";
 
 export default function PlayerLayout({
   children,
@@ -11,6 +12,7 @@ export default function PlayerLayout({
       <NavBar />
       {children}
       <MiniPlayer />
+      <AudioEngine />
     </section>
   );
 }
