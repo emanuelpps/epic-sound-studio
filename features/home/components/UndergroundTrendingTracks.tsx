@@ -81,7 +81,7 @@ export default function UndergroundTrendingTracks() {
                 <span className="truncate">{t.genre}</span>
                 <div className="flex items-center gap-3">
                   <span>{formatNumber(t.plays)} plays</span>
-                  <span className="flex items-center gap-1 text-[#f91fc3]">
+                  <span className="flex justify-center items-center gap-1 text-[#f91fc3]">
                     {formatNumber(t.likes)}
                     <FaHeart size={10} />
                   </span>
