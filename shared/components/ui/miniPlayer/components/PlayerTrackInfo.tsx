@@ -1,13 +1,18 @@
 import { usePlayerStore } from "@/stores/playerStore";
 import handleSeek from "@/lib/functions/handleSeek";
+import { useUIStore } from "@/stores/uiStore";
 
 export function PlayerTrackInfo() {
   const currentTrack = usePlayerStore((s) => s.currentTrack);
   const progress = usePlayerStore((s) => s.progress);
   const duration = usePlayerStore((s) => s.duration);
+  const setView = useUIStore((s) => s.setView);
 
   return (
-    <div className="flex flex-col min-w-[180px]">
+    <div
+      className="flex flex-col min-w-[180px] cursor-pointer"
+      onClick={() => setView("player")}
+    >
       <h3 className="text-white font-semibold line-clamp-1">
         {currentTrack?.title}
       </h3>

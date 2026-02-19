@@ -1,6 +1,13 @@
 import { create } from "zustand";
 
-export type View = "home" | "search" | "library" | "likes";
+export type View =
+  | "home"
+  | "search"
+  | "library"
+  | "likes"
+  | "player"
+  | "genre"
+  | "playlist";
 
 type UIState = {
   view: View;
