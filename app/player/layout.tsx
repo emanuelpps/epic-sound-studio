@@ -1,4 +1,4 @@
-import { MiniPlayer } from "@/features/miniPlayer/MiniPlayer";
+import { MiniPlayer } from "@/shared/components/ui/miniPlayer/MiniPlayer";
 import NavBar from "@/shared/components/layout/Nav/NavBar";
 import { AudioEngine } from "@/shared/components/ui/AudioEngine/AudioEngine";
 

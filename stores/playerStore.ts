@@ -46,5 +46,11 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
 
   toggle: () => set((s) => ({ isPlaying: !s.isPlaying })),
 
-  setVolume: (v) => set({ volume: v }),
+  setVolume: (v) => set({ volume: Math.min(Math.max(v, 0), 1) }),
+
+  increaseVolume: (step = 0.1) =>
+    set((s) => ({ volume: Math.min(s.volume + step, 1) })),
+
+  decreaseVolume: (step = 0.1) =>
+    set((s) => ({ volume: Math.max(s.volume - step, 0) })),
 }));

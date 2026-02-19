@@ -45,7 +45,6 @@ export function MiniPlayer() {
     >
       <div className="relative w-24 h-24 flex items-center justify-center shrink-0">
         {!isExpanded && <PlayerProgressRing />}
-
         <div
           className={`absolute w-16 h-16 rounded-full bg-[#f91fc3] flex items-center justify-center shadow-[0_0_25px_rgba(249,31,195,0.8)] z-10 ${isExpanded && "cursor-pointer"}`}
           onClick={handleTogglePlay}
