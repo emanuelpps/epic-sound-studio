@@ -4,11 +4,12 @@ import { handlePlay } from "@/lib/functions/handlePlay";
 import { usePlayerStore } from "@/stores/playerStore";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
 import { PlayerControls } from "./components/PlayerControls";
 import { PlayerProgressRing } from "./components/PlayerProgressRing";
 import { PlayerTrackInfo } from "./components/PlayerTrackInfo";
 import { useUIStore } from "@/stores/uiStore";
+import PlayIcon from "../Icons/Play";
+import PauseIcon from "../Icons/Pause";
 
 export function MiniPlayer() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -53,9 +54,9 @@ export function MiniPlayer() {
             onClick={handleTogglePlay}
           >
             {isPlaying ? (
-              <FaPause className="text-white text-lg" />
+              <PauseIcon className="text-white text-lg" />
             ) : (
-              <FaPlay className="text-white text-lg ml-1" />
+              <PlayIcon className="text-white text-lg ml-1" />
             )}
           </div>
         </div>

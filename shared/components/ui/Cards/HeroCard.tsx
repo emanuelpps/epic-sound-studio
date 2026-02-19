@@ -1,9 +1,8 @@
 import { handlePlay } from "@/lib/functions/handlePlay";
-import { getTrackStreamUrl } from "@/services/tracks/streamTrack";
 import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
-import { FaPlay } from "react-icons/fa";
+import PlayIcon from "../Icons/Play";
 
 interface Props {
   trackId: string;
@@ -52,7 +51,7 @@ export function HeroCard({
             className="flex justify-center items-center px-8 py-3 rounded-full bg-[#f91fc3] text-black font-semibold hover:scale-105 transition shadow-[0_0_30px_rgba(249,31,195,0.6)] cursor-pointer"
             onClick={() => handlePlay(trackId, title, artist, play)}
           >
-            <FaPlay className="mr-2" /> Listen Now
+            <PlayIcon className="mr-2" /> Listen Now
           </button>
           <button className="w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex justify-center items-center transition">
             <FiHeart size={20} />

@@ -1,3 +1,5 @@
+import Player from "../player/Player";
+
 export default function PlayerView() {
-  return <div>player</div>;
+  return <Player />;
 }
