@@ -1,3 +1,4 @@
+import { MiniPlayer } from "@/features/miniPlayer/MiniPlayer";
 import NavBar from "@/shared/components/layout/Nav/NavBar";
 
 export default function PlayerLayout({
@@ -9,6 +10,7 @@ export default function PlayerLayout({
     <section className="grid grid-cols-[120px_1fr]">
       <NavBar />
       {children}
+      <MiniPlayer />
     </section>
   );
 }
