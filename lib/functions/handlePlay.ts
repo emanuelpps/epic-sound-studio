@@ -11,7 +11,17 @@ export async function handlePlay(
   setIsLoading(true);
   try {
     const streamUrl = await getTrackStreamUrl(trackId);
-    play({ trackId, title, artist, url: streamUrl });
+    play({
+      trackId, title, artist, url: streamUrl,
+      cover: "",
+      description: "",
+      genre: "",
+      duration: 0,
+      plays: 0,
+      likes: 0,
+      reposts: 0,
+      artwork: ""
+    });
   } finally {
     setIsLoading(false);
   }

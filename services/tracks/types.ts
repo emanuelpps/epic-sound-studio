@@ -1,5 +1,5 @@
 // =============================
-// 🎧 AUDIUS API TYPES
+// AUDIUS API TYPES
 // =============================
 
 export interface AudiusArtwork {
@@ -41,7 +41,7 @@ export interface AudiusTrack {
 }
 
 // =============================
-// 🎨 UI TYPES
+// UI TYPES
 // =============================
 
 export interface UiTrack {

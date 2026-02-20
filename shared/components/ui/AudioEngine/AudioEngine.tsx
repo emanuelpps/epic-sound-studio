@@ -4,15 +4,29 @@ import { usePlayerStore } from "@/stores/playerStore";
 
 export function AudioEngine() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { currentTrack, isPlaying, setProgress, setDuration, setCurrentTime, volume } =
-    usePlayerStore();
+
+  const {
+    currentTrack,
+    isPlaying,
+    setProgress,
+    setDuration,
+    setCurrentTime,
+    volume,
+    setAudioRef,
+  } = usePlayerStore();
+
+  useEffect(() => {
+    if (audioRef.current) {
+      setAudioRef(audioRef.current);
+    }
+  }, []);
 
   useEffect(() => {
     if (!audioRef.current) return;
     isPlaying ? audioRef.current.play() : audioRef.current.pause();
   }, [isPlaying, currentTrack]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (!audioRef.current) return;
     audioRef.current.volume = volume;
   }, [volume]);

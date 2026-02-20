@@ -1,13 +1,25 @@
+import { UiPlaylist } from "@/services/playlist/types";
 import { create } from "zustand";
+import { AudiusTrack } from "@/services/tracks/types";
 
 export interface Track {
   trackId: string;
   title: string;
   artist: string;
   url: string;
+  cover: string;
+  description: string;
+  genre: string;
+  duration: number;
+  plays: number;
+  likes: number;
+  reposts: number;
+  artwork: string;
 }
 
 interface PlayerState {
+  trackData: AudiusTrack | null;
+  currentPlaylist: UiPlaylist | null;
   currentTrack: Track | null;
   isPlaying: boolean;
   volume: number;
@@ -16,6 +28,10 @@ interface PlayerState {
   currentTime: number;
   duration: number;
   isPlaylist: boolean;
+  audioRef: HTMLAudioElement | null;
+
+  setTrackData: (track: AudiusTrack | null) => void;
+  setAudioRef: (el: HTMLAudioElement | null) => void;
   setIsPlaylist: (isPlaylist: boolean) => void;
   setIsLoading: (loading: boolean) => void;
   setProgress: (p: number) => void;
@@ -28,6 +44,8 @@ interface PlayerState {
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
   currentTrack: null,
+  trackData: null,
+  currentPlaylist: null,
   isPlaying: false,
   volume: 0.8,
   isLoading: false,
@@ -35,6 +53,10 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   currentTime: 0,
   duration: 0,
   isPlaylist: false,
+  audioRef: null,
+
+  setTrackData: (track) => set({ trackData: track }),
+  setAudioRef: (el) => set({ audioRef: el }),
   setProgress: (p) => set({ progress: p }),
   setDuration: (d) => set({ duration: d }),
   setCurrentTime: (t) => set({ currentTime: t }),

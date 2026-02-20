@@ -2,6 +2,8 @@
 // 🎧 AUDIUS PLAYLIST TYPES
 // =============================
 
+import { Track } from "@/stores/playerStore";
+
 export interface AudiusArtwork {
   "150x150"?: string;
   "480x480"?: string;
@@ -40,19 +42,15 @@ export interface UiPlaylist {
   id: string;
   title: string;
   description?: string;
-
   cover: string;
-
   likes: number;
   reposts: number;
   plays: number;
   playlist_count: number;
-
   isAlbum: boolean;
-
   author: string;
   authorHandle: string;
   isVerified: boolean;
-
   permalink: string;
+  tracks: Track[];
 }

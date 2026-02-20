@@ -3,13 +3,14 @@ import { handlePause } from "@/lib/functions/handlePause";
 import { handlePlay } from "@/lib/functions/handlePlay";
 import { usePlayerStore } from "@/stores/playerStore";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PlayerControls } from "./components/PlayerControls";
 import { PlayerProgressRing } from "./components/PlayerProgressRing";
 import { PlayerTrackInfo } from "./components/PlayerTrackInfo";
 import { useUIStore } from "@/stores/uiStore";
 import PlayIcon from "../Icons/Play";
 import PauseIcon from "../Icons/Pause";
+import { getTrack } from "@/services/tracks/getTrack";
 
 export function MiniPlayer() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -17,6 +18,24 @@ export function MiniPlayer() {
   const isPlaying = usePlayerStore((s) => s.isPlaying);
   const play = usePlayerStore((s) => s.play);
   const view = useUIStore((s) => s.view);
+  const setDataTrack = usePlayerStore((s) => s.setTrackData);
+
+  useEffect(() => {
+    if (!currentTrack?.trackId) return;
+
+    setDataTrack(null);
+
+    const fetchTrack = async () => {
+      try {
+        const track = await getTrack(currentTrack.trackId);
+        setDataTrack(track);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchTrack();
+  }, [currentTrack?.trackId]);
 
   if (!currentTrack) return null;
 
