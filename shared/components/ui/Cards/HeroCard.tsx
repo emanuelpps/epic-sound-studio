@@ -3,6 +3,7 @@ import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
 import PlayIcon from "../Icons/Play";
+import { useState } from "react";
 
 interface Props {
   trackId: string;
@@ -19,19 +20,22 @@ export function HeroCard({
   cover,
   description,
 }: Props) {
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const play = usePlayerStore((s) => s.play);
+
+  console.log(trackId, title, artist, cover, description);
 
   return (
     <div className="relative rounded-3xl overflow-hidden border border-fuchsia-500/20 h-full w-full flex flex-col justify-end p-10 bg-black">
       <Image
-        src={cover}
+        src={imgSrc || cover}
         alt={title}
         fill
-        className="object-cover scale-105 opacity-70"
+        className="object-cover scale-100 opacity-70"
         unoptimized
+        onError={() => setImgSrc("/images/placeholder.jpg")}
       />
-      <div className="absolute inset-0 backdrop-blur-[2px]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(249,31,195,0.25),transparent_60%)]" />
       <div className="relative z-10 max-w-3xl">
         <p className="text-xs tracking-widest uppercase font-semibold w-fit rounded-full px-4 py-1 bg-[#f91fc3]/90 text-black shadow-[0_0_20px_rgba(249,31,195,0.6)]">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { MdQueueMusic } from "react-icons/md";
 
@@ -14,15 +15,17 @@ export function PlaylistMiniCard({
   tracks,
   likes,
 }: PlaylistMiniCardProps) {
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const likesRounded = Math.round(Number(likes)).toLocaleString();
   return (
     <div className="flex gap-3 items-center p-3 rounded-xl hover:bg-white/5 transition cursor-pointer bg-[#2E1C2B]">
       <Image
         alt={title}
-        src={image}
+        src={imgSrc || image}
         className="w-15 h-15 rounded-lg object-cover"
         width={100}
         height={100}
+        onError={() => setImgSrc("/images/placeholder.jpg")}
       />
       <div>
         <p className="text-sm text-white">{title}</p>

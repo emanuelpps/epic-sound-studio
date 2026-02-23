@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { usePlayerStore } from "@/stores/playerStore";
+import WaveLoading from "../Loaders/WaveLoading";
 
 export default function WaveProgress() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const waveSurferRef = useRef<WaveSurfer | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   const audio = usePlayerStore((s) => s.audioRef);
   const { currentTrack } = usePlayerStore();
@@ -31,6 +33,10 @@ export default function WaveProgress() {
       media: audio,
     });
 
+    ws.on("ready", () => {
+      setIsReady(true);
+    });
+
     waveSurferRef.current = ws;
 
     return () => {
@@ -38,5 +44,15 @@ export default function WaveProgress() {
     };
   }, [audio, currentTrack]);
 
-  return <div ref={containerRef} className="w-full" />;
+  return (
+    <div className="relative w-full h-20">
+      {!isReady && <WaveLoading />}
+      <div
+        ref={containerRef}
+        className={`w-full transition-opacity duration-500 ${
+          isReady ? "opacity-100" : "opacity-0"
+        }`}
+      />
+    </div>
+  );
 }

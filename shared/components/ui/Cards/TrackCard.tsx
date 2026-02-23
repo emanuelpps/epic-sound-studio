@@ -2,6 +2,7 @@ import { handlePlay } from "@/lib/functions/handlePlay";
 import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 import PlayIcon from "../Icons/Play";
+import { useState } from "react";
 
 interface TrackCardProps {
   trackId: string;
@@ -10,6 +11,7 @@ interface TrackCardProps {
   artist: string;
 }
 export function TrackCard({ trackId, image, title, artist }: TrackCardProps) {
+  const [imgSrc, setImgSrc] = useState<string | null>(null);
   const play = usePlayerStore((s) => s.play);
 
   return (
@@ -20,11 +22,12 @@ export function TrackCard({ trackId, image, title, artist }: TrackCardProps) {
       <div className="relative rounded-xl overflow-hidden">
         <Image
           alt={title}
-          src={image}
+          src={imgSrc || image}
           width={100}
           height={100}
           className="w-full h-50 object-cover group-hover:scale-105 transition"
           unoptimized
+          onError={() => setImgSrc("/images/placeholder.jpg")}
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition" />
         <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-fuchsia-600 rounded-full w-10 h-10 shadow-lg flex items-center justify-center">
