@@ -18,7 +18,7 @@ export function MiniPlayerShell({ onCollapse }: Props) {
       animate={{ borderRadius: 24 }}
     >
       <div onClick={onCollapse} className="relative">
-        <PlayerProgressRing progress={0.65} />
+        <PlayerProgressRing />
         <div className="absolute w-14 h-14 rounded-full bg-[#f91fc3] flex items-center justify-center shadow-[0_0_20px_rgba(249,31,195,0.8)]">
           ▶
         </div>

@@ -1,4 +1,4 @@
-import { GlowSkeleton } from "../Loaders/GlowSkeleton";
+import { GlowSkeleton } from "./GlowSkeleton";
 
 
 export function HeroCardSkeleton() {

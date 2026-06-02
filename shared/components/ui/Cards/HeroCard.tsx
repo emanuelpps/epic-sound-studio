@@ -23,10 +23,9 @@ export function HeroCard({
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const play = usePlayerStore((s) => s.play);
 
-  console.log(trackId, title, artist, cover, description);
 
   return (
-    <div className="relative rounded-3xl overflow-hidden border border-fuchsia-500/20 h-full w-full flex flex-col justify-end p-10 bg-black">
+    <div className="relative flex flex-col justify-end w-full h-full p-10 overflow-hidden bg-black border rounded-3xl border-fuchsia-500/20">
       <Image
         src={imgSrc || cover}
         alt={title}
@@ -44,20 +43,20 @@ export function HeroCard({
         <h1 className="mt-4 text-6xl font-black leading-[1.05] tracking-tight text-white line-clamp-2 drop-shadow-[0_10px_40px_rgba(0,0,0,0.95)]">
           {title}
         </h1>
-        <p className="mt-3 text-white/80 text-lg font-medium tracking-wide">
+        <p className="mt-3 text-lg font-medium tracking-wide text-white/80">
           {artist}
         </p>
         {description && (
-          <p className="mt-4 text-white/60 max-w-xl">{description}</p>
+          <p className="max-w-xl mt-4 text-white/60">{description}</p>
         )}
-        <div className="mt-8 flex gap-4 items-center">
+        <div className="flex items-center gap-4 mt-8">
           <button
             className="flex justify-center items-center px-8 py-3 rounded-full bg-[#f91fc3] text-black font-semibold hover:scale-105 transition shadow-[0_0_30px_rgba(249,31,195,0.6)] cursor-pointer"
             onClick={() => handlePlay(trackId, title, artist, play)}
           >
             <PlayIcon className="mr-2" /> Listen Now
           </button>
-          <button className="w-12 h-12 rounded-full border border-white/20 hover:bg-white/10 flex justify-center items-center transition">
+          <button className="flex items-center justify-center w-12 h-12 transition border rounded-full border-white/20 hover:bg-white/10">
             <FiHeart size={20} />
           </button>
         </div>

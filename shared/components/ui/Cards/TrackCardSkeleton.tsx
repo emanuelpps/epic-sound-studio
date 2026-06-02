@@ -1,6 +1,6 @@
 "use client";
 
-import { GlowSkeleton } from "../Loaders/GlowSkeleton";
+import { GlowSkeleton } from "../Skeletons/GlowSkeleton";
 
 
 export function TrackCardSkeleton() {

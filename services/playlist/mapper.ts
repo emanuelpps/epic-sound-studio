@@ -20,5 +20,6 @@ export function mapPlaylistToUI(playlist: AudiusPlaylist): UiPlaylist {
     isVerified: playlist.user?.is_verified ?? false,
 
     permalink: playlist.permalink,
+    tracks: [],
   };
 }

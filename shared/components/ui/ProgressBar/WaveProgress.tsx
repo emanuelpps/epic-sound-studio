@@ -1,58 +1,61 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { usePlayerStore } from "@/stores/playerStore";
-import WaveLoading from "../Loaders/WaveLoading";
 
-export default function WaveProgress() {
+interface WaveProgressProps {
+  onReady?: () => void;
+  onReset?: () => void;
+}
+
+export default function WaveProgress({ onReady, onReset }: WaveProgressProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const waveSurferRef = useRef<WaveSurfer | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   const audio = usePlayerStore((s) => s.audioRef);
-  const { currentTrack } = usePlayerStore();
+  const currentTrackId = usePlayerStore((s) => s.currentTrack?.trackId);
 
+  // Create WaveSurfer once when the audio element is available
   useEffect(() => {
     if (!containerRef.current || !audio) return;
 
-    if (waveSurferRef.current) {
-      waveSurferRef.current.destroy();
-    }
+    waveSurferRef.current?.destroy();
 
     const ws = WaveSurfer.create({
       container: containerRef.current,
       waveColor: "#1a0028",
       progressColor: "#f91fc3",
-      cursorColor: "transparent",
+      cursorColor: "#7c4158",
       barWidth: 3,
-      barGap: 2,
+      barGap: 3,
       barRadius: 4,
-      height: 80,
+      height: 60,
       backend: "MediaElement",
       media: audio,
+      interact: true,
     });
 
-    ws.on("ready", () => {
-      setIsReady(true);
-    });
+    ws.on("ready", () => onReady?.());
 
     waveSurferRef.current = ws;
 
     return () => {
       ws.destroy();
+      waveSurferRef.current = null;
     };
-  }, [audio, currentTrack]);
+  }, [audio]);
 
-  return (
-    <div className="relative w-full h-20">
-      {!isReady && <WaveLoading />}
-      <div
-        ref={containerRef}
-        className={`w-full transition-opacity duration-500 ${
-          isReady ? "opacity-100" : "opacity-0"
-        }`}
-      />
-    </div>
-  );
+  // When track changes, signal the parent to show the loader again
+  // WaveSurfer with MediaElement backend auto-reacts to audio src changes
+  useEffect(() => {
+    if (!waveSurferRef.current || !currentTrackId) return;
+    onReset?.();
+
+    const ws = waveSurferRef.current;
+    const unsub = ws.on("ready", () => onReady?.());
+    return () => unsub();
+  }, [currentTrackId]);
+
+  return <div ref={containerRef} className="w-full cursor-pointer" />;
 }
