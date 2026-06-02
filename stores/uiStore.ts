@@ -12,9 +12,13 @@ export type View =
 type UIState = {
   view: View;
   setView: (v: View) => void;
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
 };
 
 export const useUIStore = create<UIState>((set) => ({
   view: "home",
   setView: (v) => set({ view: v }),
+  searchQuery: "",
+  setSearchQuery: (q) => set({ searchQuery: q }),
 }));

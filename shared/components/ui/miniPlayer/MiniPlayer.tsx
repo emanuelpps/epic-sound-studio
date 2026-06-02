@@ -62,7 +62,7 @@ export function MiniPlayer() {
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={isExpanded
-          ? { y: 0, opacity: 1, width: 420, borderRadius: 24 }
+          ? { y: 0, opacity: 1, width: 540, borderRadius: 24 }
           : { y: 0, opacity: 1, width: 96, borderRadius: 999 }
         }
         exit={{ y: 20, opacity: 0 }}
@@ -94,7 +94,7 @@ export function MiniPlayer() {
         <motion.div
           animate={isExpanded ? { opacity: 1, x: 0 } : { opacity: 0, x: -16 }}
           transition={{ duration: 0.2 }}
-          className="flex items-center gap-5 px-5 min-w-0"
+          className="flex items-center gap-4 px-4 min-w-0 flex-1"
         >
           <PlayerTrackInfo />
           <PlayerControls />
