@@ -6,9 +6,11 @@ import { useUIStore } from "@/stores/uiStore";
 const HomeView = lazy(() => import("@/features/views/HomeView"));
 const SearchView = lazy(() => import("@/features/views/SearchView"));
 const LibraryView = lazy(() => import("@/features/views/LibraryView"));
+const LikesView = lazy(() => import("@/features/views/LikesView"));
 const PlayerView = lazy(() => import("@/features/views/PlayerView"));
 const GenreView = lazy(() => import("@/features/views/GenreView"));
 const PlaylistView = lazy(() => import("@/features/views/PlaylistView"));
+const ArtistView = lazy(() => import("@/features/views/ArtistView"));
 
 function ViewLoader() {
   return (
@@ -41,16 +43,14 @@ export default function PlayerShell() {
 
   return (
     <Suspense fallback={<ViewLoader />}>
-      {view === "search" && <SearchView />}
-      {view === "library" && <LibraryView />}
-      {view === "player" && <PlayerView />}
-      {view === "genre" && <GenreView />}
+      {view === "search"   && <SearchView />}
+      {view === "library"  && <LibraryView />}
+      {view === "likes"    && <LikesView />}
+      {view === "player"   && <PlayerView />}
+      {view === "genre"    && <GenreView />}
       {view === "playlist" && <PlaylistView />}
-      {view !== "search" &&
-        view !== "library" &&
-        view !== "player" &&
-        view !== "genre" &&
-        view !== "playlist" && <HomeView />}
+      {view === "artist"   && <ArtistView />}
+      {view === "home"     && <HomeView />}
     </Suspense>
   );
 }
