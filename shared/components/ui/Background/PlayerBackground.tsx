@@ -12,19 +12,14 @@ export default function PlayerBackground({
   const childrenClasses = `${className}`;
   return (
     <main
-      className={`
-        bg-[#230f1e] text-white overflow-x-hidden relative overflow-hidden font-display
-      `}
+      className={`h-full bg-[#230f1e] text-white overflow-x-hidden relative overflow-y-auto font-display`}
       {...props}
     >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-[#230f1e]/80 via-transparent to-[#230f1e]/90 z-10" />
       </div>
       <GlowBackground />
-      <div
-        className={`relative z-10 w-full 
-        ${childrenClasses}`}
-      >
+      <div className={`relative z-10 w-full h-full ${childrenClasses}`}>
         {children}
       </div>
       <CraftedBy />

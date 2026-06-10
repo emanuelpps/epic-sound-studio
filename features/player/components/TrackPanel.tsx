@@ -97,7 +97,7 @@ export default function TrackPanel() {
   if (!trackData) return <TrackInfoSkeleton />;
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="h-full flex flex-col gap-4 w-full overflow-hidden">
 
       {/* ── Page header ────────────────────────────── */}
       <div className="relative pl-5">
@@ -109,11 +109,11 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
 
-        {/* Top: artwork + meta ───────────────────── */}
+        {/* Top: artwork + meta — flex-1 absorbs leftover height */}
         <div
-          className="flex gap-8 items-center"
+          className="flex-1 min-h-0 flex gap-8 items-center"
           style={{ padding: isPlaylist ? "24px" : "32px 32px 28px" }}
         >
 
@@ -127,8 +127,8 @@ export default function TrackPanel() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative rounded-2xl overflow-hidden shrink-0"
               style={{
-                width: isPlaylist ? 160 : 280,
-                height: isPlaylist ? 160 : 280,
+                width: isPlaylist ? 160 : "clamp(160px, 22vh, 280px)",
+                height: isPlaylist ? 160 : "clamp(160px, 22vh, 280px)",
                 boxShadow: "0 16px 64px rgba(249,31,195,0.35), 0 0 0 1px rgba(249,31,195,0.12)",
               }}
             >
@@ -236,10 +236,10 @@ export default function TrackPanel() {
         </div>
 
         {/* Separator */}
-        <div className="h-px bg-white/[0.06]" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
+        <div className="shrink-0 h-px bg-white/[0.06]" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
 
         {/* Waveform + time ───────────────────────── */}
-        <div className="pt-5 pb-2" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
+        <div className="shrink-0 pt-5 pb-2" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
           <div className="relative">
             <AnimatePresence>
               {!wavesReady && (
@@ -268,10 +268,10 @@ export default function TrackPanel() {
         </div>
 
         {/* Separator */}
-        <div className="h-px bg-white/[0.06] mt-3" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
+        <div className="shrink-0 h-px bg-white/[0.06] mt-3" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
 
         {/* Controls ─────────────────────────────── */}
-        <div className="pt-4 pb-5 flex flex-col gap-4" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
+        <div className="shrink-0 pt-4 pb-5 flex flex-col gap-4" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
 
           {/* Main row */}
           <div className="flex items-center justify-center gap-6">

@@ -9,7 +9,7 @@ export default function PlayerLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="grid grid-cols-[120px_1fr]">
+    <section className="grid grid-cols-[120px_1fr] h-screen overflow-hidden">
       <NavBar />
       <PlayerBackground>{children}</PlayerBackground>
       <MiniPlayer />
