@@ -112,7 +112,10 @@ export default function TrackPanel() {
       <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
 
         {/* Top: artwork + meta ───────────────────── */}
-        <div className="flex gap-6 p-6 items-center">
+        <div
+          className="flex gap-8 items-center"
+          style={{ padding: isPlaylist ? "24px" : "32px 32px 28px" }}
+        >
 
           {/* Cover */}
           <AnimatePresence mode="wait">
@@ -124,16 +127,16 @@ export default function TrackPanel() {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative rounded-2xl overflow-hidden shrink-0"
               style={{
-                width: isPlaylist ? 160 : 200,
-                height: isPlaylist ? 160 : 200,
-                boxShadow: "0 12px 48px rgba(249,31,195,0.3), 0 0 0 1px rgba(249,31,195,0.12)",
+                width: isPlaylist ? 160 : 280,
+                height: isPlaylist ? 160 : 280,
+                boxShadow: "0 16px 64px rgba(249,31,195,0.35), 0 0 0 1px rgba(249,31,195,0.12)",
               }}
             >
               <Image
                 src={artwork}
                 alt={trackData.title}
                 fill
-                sizes="200px"
+                sizes="280px"
                 className="object-cover"
                 priority
                 onError={() => setImgSrc("/images/placeholder.jpg")}
@@ -149,12 +152,13 @@ export default function TrackPanel() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.25 }}
-              className="flex-1 min-w-0 flex flex-col gap-3"
+              className="flex-1 min-w-0 flex flex-col justify-center"
+              style={{ gap: isPlaylist ? "12px" : "16px" }}
             >
               <div>
                 <h2
-                  className="font-bold text-white leading-tight line-clamp-2 mb-1"
-                  style={{ fontSize: isPlaylist ? "1.4rem" : "1.75rem" }}
+                  className="font-bold text-white leading-[1.1] line-clamp-2 mb-2"
+                  style={{ fontSize: isPlaylist ? "1.4rem" : "2.5rem" }}
                   title={trackData.title}
                 >
                   {trackData.title}
@@ -167,27 +171,38 @@ export default function TrackPanel() {
                     }
                   }}
                   disabled={!artistHandle}
-                  className="text-sm text-white/50 hover:text-[#f91fc3] transition w-fit flex items-center gap-1 group disabled:pointer-events-none"
+                  className="text-white/50 hover:text-[#f91fc3] transition w-fit flex items-center gap-1.5 group disabled:pointer-events-none"
+                  style={{ fontSize: isPlaylist ? "0.875rem" : "1.1rem" }}
                 >
                   {trackData.user.name}
                   {artistHandle && (
-                    <HiArrowTopRightOnSquare className="text-xs opacity-0 group-hover:opacity-60 transition" />
+                    <HiArrowTopRightOnSquare
+                      className="opacity-0 group-hover:opacity-60 transition"
+                      size={isPlaylist ? 12 : 14}
+                    />
                   )}
                 </button>
               </div>
 
+              {/* Description (single track only, if available) */}
+              {!isPlaylist && trackData.description && (
+                <p className="text-sm text-white/30 line-clamp-2 leading-relaxed max-w-2xl">
+                  {trackData.description}
+                </p>
+              )}
+
               {/* Stats */}
-              <div className="flex gap-4">
-                <span className="flex items-center gap-1.5 text-xs text-white/35">
-                  <span className="text-white/50 text-[10px]">▶</span>
+              <div className="flex gap-5">
+                <span className="flex items-center gap-1.5 text-white/35" style={{ fontSize: isPlaylist ? "11px" : "13px" }}>
+                  <span className="text-white/50" style={{ fontSize: isPlaylist ? "9px" : "11px" }}>▶</span>
                   {fmt(trackData.play_count ?? 0)}
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-white/35">
-                  <span className="text-[#f91fc3]/60 text-[10px]">♥</span>
+                <span className="flex items-center gap-1.5 text-white/35" style={{ fontSize: isPlaylist ? "11px" : "13px" }}>
+                  <span className="text-[#f91fc3]/60" style={{ fontSize: isPlaylist ? "9px" : "11px" }}>♥</span>
                   {fmt(trackData.favorite_count ?? 0)}
                 </span>
-                <span className="flex items-center gap-1.5 text-xs text-white/35">
-                  <span className="text-white/50 text-[10px]">↺</span>
+                <span className="flex items-center gap-1.5 text-white/35" style={{ fontSize: isPlaylist ? "11px" : "13px" }}>
+                  <span className="text-white/50" style={{ fontSize: isPlaylist ? "9px" : "11px" }}>↺</span>
                   {fmt(trackData.repost_count ?? 0)}
                 </span>
               </div>
@@ -195,19 +210,24 @@ export default function TrackPanel() {
               {/* Genre + Like row */}
               <div className="flex items-center gap-3 flex-wrap">
                 {trackData.genre && (
-                  <span className="text-[10px] font-semibold tracking-widest uppercase text-[#f91fc3]/60 border border-[#f91fc3]/20 rounded-full px-3 py-1">
+                  <span
+                    className="font-semibold tracking-widest uppercase text-[#f91fc3]/60 border border-[#f91fc3]/20 rounded-full px-3 py-1"
+                    style={{ fontSize: isPlaylist ? "9px" : "11px" }}
+                  >
                     {trackData.genre}
                   </span>
                 )}
                 <button
                   onClick={() => { if (trackId) toggleLike(trackId); }}
-                  className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full border transition ${
+                  className={`flex items-center gap-1.5 font-medium rounded-full border transition ${
+                    isPlaylist ? "text-xs px-3 py-1" : "text-sm px-4 py-1.5"
+                  } ${
                     isLiked
                       ? "bg-[#f91fc3]/15 border-[#f91fc3]/50 text-[#f91fc3]"
                       : "bg-white/5 border-white/10 text-white/40 hover:border-[#f91fc3]/40 hover:text-[#f91fc3]/70"
                   }`}
                 >
-                  {isLiked ? <HiHeart size={12} /> : <HiOutlineHeart size={12} />}
+                  {isLiked ? <HiHeart size={isPlaylist ? 12 : 14} /> : <HiOutlineHeart size={isPlaylist ? 12 : 14} />}
                   {isLiked ? "Liked" : "Like"}
                 </button>
               </div>
@@ -216,10 +236,10 @@ export default function TrackPanel() {
         </div>
 
         {/* Separator */}
-        <div className="h-px bg-white/[0.06] mx-6" />
+        <div className="h-px bg-white/[0.06]" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
 
         {/* Waveform + time ───────────────────────── */}
-        <div className="px-6 pt-5 pb-2">
+        <div className="pt-5 pb-2" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
           <div className="relative">
             <AnimatePresence>
               {!wavesReady && (
@@ -248,10 +268,10 @@ export default function TrackPanel() {
         </div>
 
         {/* Separator */}
-        <div className="h-px bg-white/[0.06] mx-6 mt-3" />
+        <div className="h-px bg-white/[0.06] mt-3" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
 
         {/* Controls ─────────────────────────────── */}
-        <div className="px-6 pt-4 pb-5 flex flex-col gap-4">
+        <div className="pt-4 pb-5 flex flex-col gap-4" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
 
           {/* Main row */}
           <div className="flex items-center justify-center gap-6">

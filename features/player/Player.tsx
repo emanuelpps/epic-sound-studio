@@ -19,11 +19,9 @@ export default function Player() {
           <QueuePanel />
         </div>
       ) : (
-        /* Single track: full width, centred content */
-        <div className="relative z-10 flex justify-center p-6 min-h-screen">
-          <div className="w-full max-w-4xl">
-            <TrackPanel />
-          </div>
+        /* Single track: occupies the full content area */
+        <div className="relative z-10 p-6 min-h-screen">
+          <TrackPanel />
         </div>
       )}
     </section>
