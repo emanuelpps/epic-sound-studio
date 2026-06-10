@@ -12,7 +12,7 @@ export default function PlayerBackground({
   const childrenClasses = `${className}`;
   return (
     <main
-      className={`h-full bg-[#230f1e] text-white overflow-x-hidden relative overflow-y-auto font-display`}
+      className={`h-full bg-[#230f1e] text-white overflow-hidden relative font-display`}
       {...props}
     >
       <div className="absolute inset-0 z-0">
