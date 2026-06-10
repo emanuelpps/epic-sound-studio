@@ -6,7 +6,11 @@ export function mapPlaylistToUI(playlist: AudiusPlaylist): UiPlaylist {
     title: playlist.playlist_name,
     description: playlist.description ?? undefined,
 
-    cover: playlist.artwork?.["150x150"] || playlist.artwork?.["480x480"] || "No Image",
+    cover:
+      playlist.artwork?.["1000x1000"] ||
+      playlist.artwork?.["480x480"] ||
+      playlist.artwork?.["150x150"] ||
+      "/images/placeholder.jpg",
 
     likes: playlist.favorite_count ?? 0,
     reposts: playlist.repost_count ?? 0,

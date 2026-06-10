@@ -16,9 +16,13 @@ export async function getPlaylist(playlistId: string): Promise<AudiusPlaylist> {
 
   if (!res.ok) throw new Error("Playlist request failed");
 
-  const json: AudiusResponse<AudiusPlaylist> = await res.json();
+  const json: AudiusResponse<AudiusPlaylist | AudiusPlaylist[]> = await res.json();
 
   if (!json.data) throw new Error("Playlist not found");
 
-  return json.data;
+  // Audius sometimes wraps single items in an array
+  const playlist = Array.isArray(json.data) ? json.data[0] : json.data;
+  if (!playlist) throw new Error("Playlist not found");
+
+  return playlist;
 }
