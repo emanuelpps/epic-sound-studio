@@ -109,12 +109,12 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+      <div className="flex-1 min-h-0 flex flex-col justify-center bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
 
-        {/* Top: artwork + meta — flex-1 absorbs leftover height */}
+        {/* Top: artwork + meta */}
         <div
-          className="flex-1 min-h-0 flex gap-8 items-center"
-          style={{ padding: isPlaylist ? "24px" : "32px 32px 28px" }}
+          className="shrink-0 flex gap-8 items-center"
+          style={{ padding: isPlaylist ? "24px 24px 20px" : "32px 32px 28px" }}
         >
 
           {/* Cover */}
