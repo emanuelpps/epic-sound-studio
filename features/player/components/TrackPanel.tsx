@@ -109,7 +109,7 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
 
         {/* Top: artwork + meta — flex-1 absorbs leftover height */}
         <div
