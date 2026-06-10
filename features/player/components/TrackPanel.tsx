@@ -45,6 +45,7 @@ export default function TrackPanel() {
   const currentTime  = usePlayerStore((s) => s.currentTime);
   const duration     = usePlayerStore((s) => s.duration);
   const likedTracks  = usePlayerStore((s) => s.likedTracks);
+  const currentPlaylistTitle = usePlayerStore((s) => s.currentPlaylist?.title ?? "");
   const play         = usePlayerStore((s) => s.play);
   const toggle       = usePlayerStore((s) => s.toggle);
   const setVolume    = usePlayerStore((s) => s.setVolume);
@@ -53,7 +54,6 @@ export default function TrackPanel() {
   const toggleLike    = usePlayerStore((s) => s.toggleLike);
   const initializeLikes = usePlayerStore((s) => s.initializeLikes);
 
-  const currentPlaylistTitle = usePlayerStore((s) => s.currentPlaylist?.title ?? "");
   const setSelectedArtist = useUIStore((s) => s.setSelectedArtist);
   const setView           = useUIStore((s) => s.setView);
 
@@ -62,11 +62,11 @@ export default function TrackPanel() {
 
   useEffect(() => { initializeLikes(); }, [initializeLikes]);
 
-  const isLoaded   = !!currentTrack?.url && currentTrack.trackId === trackData?.id;
-  const trackId    = trackData?.id ?? "";
-  const isLiked    = likedTracks.has(trackId);
-  const artwork    = imgSrc ?? trackData?.artwork?.["480x480"] ?? trackData?.artwork?.["150x150"] ?? "/images/placeholder.jpg";
-  const artistId   = trackData?.user?.id ?? "";
+  const isLoaded     = !!currentTrack?.url && currentTrack.trackId === trackData?.id;
+  const trackId      = trackData?.id ?? "";
+  const isLiked      = likedTracks.has(trackId);
+  const artwork      = imgSrc ?? trackData?.artwork?.["480x480"] ?? trackData?.artwork?.["150x150"] ?? "/images/placeholder.jpg";
+  const artistId     = trackData?.user?.id ?? "";
   const artistHandle = trackData?.user?.handle ?? "";
 
   const handleTogglePlay = () => {
@@ -81,7 +81,6 @@ export default function TrackPanel() {
     setView("artist");
   };
 
-  // Keyboard shortcuts
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName;
@@ -104,10 +103,13 @@ export default function TrackPanel() {
 
   if (!trackData) return <TrackInfoSkeleton />;
 
-  return (
-    <div className="flex flex-col gap-6 w-full max-w-2xl mx-auto">
+  /* Cover size: bigger when no playlist sidebar */
+  const coverSize = isPlaylist ? "w-40 h-40" : "w-56 h-56";
 
-      {/* ── Header ────────────────────────────────── */}
+  return (
+    <div className="flex flex-col gap-5 w-full">
+
+      {/* ── Header ─────────────────────────────────── */}
       <div className="relative pl-5">
         <span className="absolute left-0 top-1 bottom-1 w-[5px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />
         <h1 className="text-xl font-bold tracking-wide text-white uppercase">Now Playing</h1>
@@ -116,7 +118,7 @@ export default function TrackPanel() {
         </p>
       </div>
 
-      {/* ── Artwork + Meta card ───────────────────── */}
+      {/* ── Top card: artwork + meta ───────────────── */}
       <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
         <div className="flex gap-6 items-start">
 
@@ -128,14 +130,14 @@ export default function TrackPanel() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative w-44 h-44 rounded-2xl overflow-hidden shrink-0"
+              className={`relative ${coverSize} rounded-2xl overflow-hidden shrink-0`}
               style={{ boxShadow: "0 8px 40px rgba(249,31,195,0.25), 0 0 0 1px rgba(249,31,195,0.1)" }}
             >
               <Image
                 src={artwork}
                 alt={trackData.title}
                 fill
-                sizes="176px"
+                sizes="224px"
                 className="object-cover"
                 priority
                 onError={() => setImgSrc("/images/placeholder.jpg")}
@@ -154,7 +156,7 @@ export default function TrackPanel() {
                 transition={{ duration: 0.25 }}
                 className="flex flex-col gap-1"
               >
-                <h2 className="text-xl font-bold text-white leading-tight line-clamp-2" title={trackData.title}>
+                <h2 className="text-2xl font-bold text-white leading-tight line-clamp-2" title={trackData.title}>
                   {trackData.title}
                 </h2>
                 <button
@@ -171,7 +173,7 @@ export default function TrackPanel() {
             </AnimatePresence>
 
             {/* Stats */}
-            <div className="flex gap-4">
+            <div className="flex gap-5 mt-1">
               <span className="flex items-center gap-1.5 text-xs text-white/30">
                 <span className="text-white/50">▶</span>
                 {fmt(trackData.play_count ?? 0)}
@@ -193,7 +195,7 @@ export default function TrackPanel() {
               </span>
             )}
 
-            {/* Like action */}
+            {/* Like */}
             <button
               onClick={() => { if (trackId) toggleLike(trackId); }}
               className={`mt-auto flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border transition w-fit ${
@@ -209,48 +211,45 @@ export default function TrackPanel() {
         </div>
       </div>
 
-      {/* ── Waveform + Time card ──────────────────── */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl px-6 pt-5 pb-4 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
-        <div className="relative w-full mb-1">
-          <AnimatePresence>
-            {!wavesReady && (
-              <motion.div
-                key="wave-loader"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <DotsGlowLoader />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <motion.div
-            animate={{ opacity: wavesReady ? 1 : 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <WaveProgress
-              onReady={() => setWavesReady(true)}
-              onReset={() => setWavesReady(false)}
-            />
-          </motion.div>
+      {/* ── Bottom card: waveform + controls + volume ─ */}
+      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl px-6 pt-6 pb-5 shadow-[0_0_40px_rgba(249,31,195,0.06)] flex flex-col gap-5">
+
+        {/* Waveform */}
+        <div>
+          <div className="relative w-full">
+            <AnimatePresence>
+              {!wavesReady && (
+                <motion.div
+                  key="wave-loader"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <DotsGlowLoader />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <motion.div animate={{ opacity: wavesReady ? 1 : 0 }} transition={{ duration: 0.35 }}>
+              <WaveProgress
+                onReady={() => setWavesReady(true)}
+                onReset={() => setWavesReady(false)}
+              />
+            </motion.div>
+          </div>
+          {/* Time */}
+          <div className="flex justify-between text-xs text-white/30 font-mono px-0.5 mt-1">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
         </div>
 
-        {/* Time row */}
-        <div className="flex justify-between text-xs text-white/30 font-mono px-0.5 mt-1">
-          <span>{formatTime(currentTime)}</span>
-          <span>{formatTime(duration)}</span>
-        </div>
-      </div>
+        {/* Divider */}
+        <div className="h-px bg-white/[0.06]" />
 
-      {/* ── Controls card ─────────────────────────── */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl px-6 py-5 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
-
-        {/* Main controls */}
-        <div className="flex items-center justify-center gap-6 mb-5">
-
-          {/* Shuffle */}
+        {/* Controls */}
+        <div className="flex items-center justify-center gap-5">
           <button
             onClick={toggleShuffle}
             title="Shuffle"
@@ -263,17 +262,16 @@ export default function TrackPanel() {
             <TbArrowsShuffle size={18} />
           </button>
 
-          {/* Prev */}
           <button
             onClick={handlePrev}
             disabled={!isPlaylist}
             title="Previous"
-            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed border border-transparent"
+            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
           >
             <IoPlaySkipBack size={20} />
           </button>
 
-          {/* Play / Pause */}
+          {/* Play / Pause — botón principal */}
           <button
             onClick={handleTogglePlay}
             disabled={!trackData || isLoading}
@@ -290,21 +288,19 @@ export default function TrackPanel() {
             )}
           </button>
 
-          {/* Next */}
           <button
             onClick={handleNext}
             disabled={!isPlaylist}
             title="Next"
-            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed border border-transparent"
+            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
           >
             <IoPlaySkipForward size={20} />
           </button>
 
-          {/* Repeat */}
           <button
             onClick={toggleRepeat}
             title={repeat === "off" ? "Repeat off" : repeat === "one" ? "Repeat one" : "Repeat all"}
-            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all relative ${
+            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
               repeat !== "off"
                 ? "text-[#f91fc3] bg-[#f91fc3]/10 border border-[#f91fc3]/30"
                 : "text-white/30 hover:text-white/70 border border-transparent"
@@ -348,7 +344,7 @@ export default function TrackPanel() {
         </div>
 
         {/* Keyboard hint */}
-        <p className="text-center text-[10px] text-white/15 tracking-widest mt-4 select-none uppercase">
+        <p className="text-center text-[10px] text-white/15 tracking-widest select-none uppercase -mt-1">
           Space · ← → seek 5s
         </p>
       </div>

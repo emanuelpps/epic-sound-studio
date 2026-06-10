@@ -11,18 +11,21 @@ export default function Player() {
   return (
     <section className="relative min-h-screen w-full text-white">
       <CenterGlowBackground />
-      <div
-        className="relative z-10 min-h-screen p-6"
-        style={{
-          display: isPlaylist ? "grid" : "flex",
-          gridTemplateColumns: isPlaylist ? "1fr 340px" : undefined,
-          justifyContent: isPlaylist ? undefined : "center",
-          gap: "1.5rem",
-        }}
-      >
-        <TrackPanel />
-        {isPlaylist && <QueuePanel />}
-      </div>
+
+      {isPlaylist ? (
+        /* Two-column: track + queue */
+        <div className="relative z-10 grid grid-cols-[1fr_340px] gap-6 p-6 min-h-screen">
+          <TrackPanel />
+          <QueuePanel />
+        </div>
+      ) : (
+        /* Single track: full width, centred content */
+        <div className="relative z-10 flex justify-center p-6 min-h-screen">
+          <div className="w-full max-w-3xl">
+            <TrackPanel />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
