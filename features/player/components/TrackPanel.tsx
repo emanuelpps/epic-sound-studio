@@ -97,10 +97,10 @@ export default function TrackPanel() {
   if (!trackData) return <TrackInfoSkeleton />;
 
   return (
-    <div className="h-full flex flex-col gap-4 w-full overflow-hidden">
+    <div className="h-full flex flex-col gap-4 w-full">
 
       {/* ── Page header ────────────────────────────── */}
-      <div className="relative pl-5">
+      <div className="relative pl-5 shrink-0">
         <span className="absolute left-0 top-1 bottom-1 w-[5px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />
         <h1 className="text-xl font-bold tracking-wide text-white uppercase">Now Playing</h1>
         <p className="text-sm text-white/40 mt-0.5">

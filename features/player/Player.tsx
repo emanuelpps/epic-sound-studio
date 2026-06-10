@@ -14,7 +14,7 @@ export default function Player() {
 
       {isPlaylist ? (
         /* Two-column: track + queue — scrollable if content overflows */
-        <div className="relative z-10 grid grid-cols-[1fr_340px] gap-6 p-6 h-full">
+        <div className="relative z-10 grid grid-cols-[1fr_340px] grid-rows-[1fr] gap-6 p-6 h-full">
           <TrackPanel />
           <QueuePanel />
         </div>
