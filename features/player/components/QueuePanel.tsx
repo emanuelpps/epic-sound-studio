@@ -22,19 +22,19 @@ export default function QueuePanel() {
   const currentIdx = tracks.findIndex((t) => t.trackId === currentTrack?.trackId);
 
   return (
-    <aside className="flex flex-col gap-4 self-start sticky top-6">
+    <aside className="h-full flex flex-col gap-4">
 
       {/* Header */}
-      <div className="relative pl-5">
+      <div className="relative pl-5 shrink-0">
         <span className="absolute left-0 top-1 bottom-1 w-[5px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />
         <h2 className="text-xl font-bold tracking-wide text-white uppercase">Queue</h2>
         <p className="text-sm text-white/40 mt-0.5">{tracks.length} tracks</p>
       </div>
 
       {/* Track list */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(249,31,195,0.06)]">
+      <div className="flex-1 min-h-0 bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(249,31,195,0.06)]">
         <div
-          className="flex flex-col max-h-[calc(100vh-220px)] overflow-y-auto"
+          className="h-full flex flex-col overflow-y-auto"
           style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(249,31,195,0.2) transparent" }}
         >
           {tracks.map((track, i) => {
