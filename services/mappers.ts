@@ -5,6 +5,8 @@ export function mapTrackToUI(track: AudiusTrack): UiTrack {
     id: track.id,
     title: track.title,
     artist: track.user?.name ?? "Unknown Artist",
+    artistId: track.user?.id ?? "",
+    artistHandle: track.user?.handle ?? "",
 
     description: track.description ?? undefined,
 

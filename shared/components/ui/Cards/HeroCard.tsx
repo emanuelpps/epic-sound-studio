@@ -2,8 +2,9 @@ import { handlePlay } from "@/lib/functions/handlePlay";
 import { usePlayerStore } from "@/stores/playerStore";
 import Image from "next/image";
 import { FiHeart } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
 import PlayIcon from "../Icons/Play";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   trackId: string;
@@ -21,7 +22,22 @@ export function HeroCard({
   description,
 }: Props) {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState(false);
   const play = usePlayerStore((s) => s.play);
+  const toggleLike = usePlayerStore((s) => s.toggleLike);
+  const isTrackLiked = usePlayerStore((s) => s.isTrackLiked);
+  const initializeLikes = usePlayerStore((s) => s.initializeLikes);
+
+  useEffect(() => {
+    initializeLikes();
+    setIsLiked(isTrackLiked(trackId));
+  }, [trackId, isTrackLiked, initializeLikes]);
+
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toggleLike(trackId);
+    setIsLiked(!isLiked);
+  };
 
 
   return (
@@ -56,8 +72,18 @@ export function HeroCard({
           >
             <PlayIcon className="mr-2" /> Listen Now
           </button>
-          <button className="flex items-center justify-center w-12 h-12 transition border rounded-full border-white/20 hover:bg-white/10">
-            <FiHeart size={20} />
+          <button
+            onClick={handleLikeClick}
+            className="flex items-center justify-center w-12 h-12 transition border rounded-full hover:bg-white/10 hover:border-[#f91fc3] group"
+            style={{
+              borderColor: isLiked ? "#f91fc3" : "rgba(255,255,255,0.2)",
+            }}
+          >
+            {isLiked ? (
+              <FaHeart size={20} className="text-[#f91fc3]" />
+            ) : (
+              <FiHeart size={20} className="group-hover:text-[#f91fc3]" />
+            )}
           </button>
         </div>
       </div>

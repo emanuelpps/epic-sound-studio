@@ -1,10 +1,13 @@
 import { useTrendingPlaylists } from "@/queries/useTrendingPlaylist";
 import { PlaylistMiniCard } from "@/shared/components/ui/Cards/PlaylistCard";
 import { PlaylistMiniCardSkeleton } from "@/shared/components/ui/Skeletons/PlaylistMiniCardSkeleton";
+import { useUIStore } from "@/stores/uiStore";
 import { IoTrendingUpSharp } from "react-icons/io5";
 
 export default function Aside() {
   const { data, isLoading, error } = useTrendingPlaylists();
+  const setSelectedPlaylistId = useUIStore((s) => s.setSelectedPlaylistId);
+  const setView = useUIStore((s) => s.setView);
   if (isLoading) {
     return (
       <aside className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)] rounded-2xl mt-4">
@@ -39,6 +42,10 @@ export default function Aside() {
             title={p.title}
             tracks={p.playlist_count}
             likes={p.likes}
+            onClick={() => {
+              setSelectedPlaylistId(p.id);
+              setView("playlist");
+            }}
           />
         ))}
       </div>

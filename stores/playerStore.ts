@@ -1,6 +1,7 @@
 import { UiPlaylist } from "@/services/playlist/types";
 import { create } from "zustand";
 import { AudiusTrack } from "@/services/tracks/types";
+import { saveLikes, loadLikes } from "@/lib/localStorage";
 
 export interface Track {
   trackId: string;
@@ -33,6 +34,7 @@ interface PlayerState {
   audioRef: HTMLAudioElement | null;
   shuffle: boolean;
   repeat: RepeatMode;
+  likedTracks: Set<string>;
 
   setTrackData: (track: AudiusTrack | null) => void;
   setAudioRef: (el: HTMLAudioElement | null) => void;
@@ -51,6 +53,9 @@ interface PlayerState {
   toggleRepeat: () => void;
   getNextTrack: () => Track | null;
   getPrevTrack: () => Track | null;
+  toggleLike: (trackId: string) => void;
+  isTrackLiked: (trackId: string) => boolean;
+  initializeLikes: () => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -67,6 +72,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   audioRef: null,
   shuffle: false,
   repeat: "off",
+  likedTracks: new Set(),
 
   setTrackData: (track) => set({ trackData: track }),
   setAudioRef: (el) => set({ audioRef: el }),
@@ -111,5 +117,23 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     if (tracks.length === 0) return null;
     const idx = tracks.findIndex((t) => t.trackId === currentTrack.trackId);
     return tracks[(idx - 1 + tracks.length) % tracks.length];
+  },
+  toggleLike: (trackId: string) =>
+    set((s) => {
+      const newLikes = new Set(s.likedTracks);
+      if (newLikes.has(trackId)) {
+        newLikes.delete(trackId);
+      } else {
+        newLikes.add(trackId);
+      }
+      saveLikes(newLikes);
+      return { likedTracks: newLikes };
+    }),
+  isTrackLiked: (trackId: string) => {
+    return get().likedTracks.has(trackId);
+  },
+  initializeLikes: () => {
+    const likes = loadLikes();
+    set({ likedTracks: likes });
   },
 }));

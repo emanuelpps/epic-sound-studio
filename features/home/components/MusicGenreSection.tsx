@@ -1,10 +1,13 @@
 "use client";
 
 import { useTrendingTracks } from "@/queries/useTrendingTracks";
+import { useUIStore } from "@/stores/uiStore";
 import { useMemo } from "react";
 
 export default function MusicGenresSection() {
   const { data: tracks, isLoading } = useTrendingTracks();
+  const setSelectedGenre = useUIStore((s) => s.setSelectedGenre);
+  const setView = useUIStore((s) => s.setView);
 
   const genres = useMemo(() => {
     if (!tracks) return [];
@@ -42,6 +45,10 @@ export default function MusicGenresSection() {
         {genres.map((g) => (
           <button
             key={g.name}
+            onClick={() => {
+              setSelectedGenre(g.name);
+              setView("genre");
+            }}
             className="
               group relative px-5 py-3 rounded-2xl
               bg-[#1a0d1c]/80 border border-white/10

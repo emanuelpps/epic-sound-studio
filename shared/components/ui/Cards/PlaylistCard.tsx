@@ -8,17 +8,22 @@ interface PlaylistMiniCardProps {
   title: string;
   tracks: number;
   likes: number;
+  onClick?: () => void;
 }
 export function PlaylistMiniCard({
   image,
   title,
   tracks,
   likes,
+  onClick,
 }: PlaylistMiniCardProps) {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
   const likesRounded = Math.round(Number(likes)).toLocaleString();
   return (
-    <div className="flex gap-3 items-center p-3 rounded-xl hover:bg-white/5 transition cursor-pointer bg-[#2E1C2B]">
+    <div
+      onClick={onClick}
+      className="flex gap-3 items-center p-3 rounded-xl hover:bg-white/5 transition cursor-pointer bg-[#2E1C2B]"
+    >
       <Image
         alt={title}
         src={imgSrc || image}

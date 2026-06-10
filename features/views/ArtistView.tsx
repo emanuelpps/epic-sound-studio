@@ -1,25 +1,26 @@
 "use client";
 
 import { useUIStore } from "@/stores/uiStore";
-import { usePlaylistDetail } from "@/queries/usePlaylistDetail";
-import { usePlaylistTracks } from "@/queries/usePlaylistTracks";
+import { useArtist } from "@/queries/useArtist";
+import { useArtistTracks } from "@/queries/useArtistTracks";
 import { TrackCard } from "@/shared/components/ui/Cards/TrackCard";
 import { GlowSkeleton } from "@/shared/components/ui/Skeletons/GlowSkeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiChevronLeft } from "react-icons/hi2";
 import Image from "next/image";
 import { useState } from "react";
+import { HiCheckBadge } from "react-icons/hi2";
 
-function PlaylistSkeleton() {
+function ArtistSkeleton() {
   return (
     <>
       {/* Header skeleton */}
-      <div className="flex gap-6 items-end mb-8">
-        <GlowSkeleton className="w-48 h-48 rounded-xl shrink-0" />
-        <div className="flex-1 space-y-4">
-          <GlowSkeleton className="w-3/4 h-6 rounded-lg" />
-          <GlowSkeleton className="w-1/2 h-4 rounded-lg" />
-          <GlowSkeleton className="w-2/3 h-3 rounded-lg" />
+      <div className="flex flex-col items-center gap-6 mb-8 text-center">
+        <GlowSkeleton className="w-40 h-40 rounded-full" />
+        <div className="space-y-3 w-full max-w-md">
+          <GlowSkeleton className="w-3/4 h-6 rounded-lg mx-auto" />
+          <GlowSkeleton className="w-1/2 h-4 rounded-lg mx-auto" />
+          <GlowSkeleton className="w-2/3 h-3 rounded-lg mx-auto" />
         </div>
       </div>
 
@@ -37,31 +38,33 @@ function PlaylistSkeleton() {
   );
 }
 
-export default function PlaylistView() {
-  const selectedPlaylistId = useUIStore((s) => s.selectedPlaylistId);
+export default function ArtistView() {
+  const selectedArtistHandle = useUIStore((s) => s.selectedArtistHandle);
+  const selectedArtistId = useUIStore((s) => s.selectedArtistId);
   const setView = useUIStore((s) => s.setView);
-  const setSelectedPlaylistId = useUIStore((s) => s.setSelectedPlaylistId);
-  const { data: playlist, isLoading: playlistLoading } = usePlaylistDetail(selectedPlaylistId);
-  const { data: tracks, isLoading: tracksLoading } = usePlaylistTracks(selectedPlaylistId);
+  const setSelectedArtist = useUIStore((s) => s.setSelectedArtist);
+  const { data: artist, isLoading: artistLoading } = useArtist(selectedArtistHandle);
+  const { data: tracks, isLoading: tracksLoading } = useArtistTracks(selectedArtistId);
   const [imgSrc, setImgSrc] = useState<string | null>(null);
 
-  if (!selectedPlaylistId) {
+  if (!selectedArtistHandle) {
     return (
       <div className="flex flex-col gap-8 p-6 min-h-screen">
-        <p className="text-white/40">No playlist selected</p>
+        <p className="text-white/40">No artist selected</p>
       </div>
     );
   }
 
-  const showSkeleton = playlistLoading || tracksLoading;
-  const hasPlaylist = playlist && tracks && tracks.length > 0;
+  const showSkeleton = artistLoading || tracksLoading;
+  const hasTracks = tracks && tracks.length > 0;
+  const profilePicUrl = artist?.profile_picture?.["480x480"] || artist?.profile_picture?.["150x150"];
 
   return (
     <div className="flex flex-col gap-8 p-6 min-h-screen">
       {/* Header */}
       <button
         onClick={() => {
-          setSelectedPlaylistId(null);
+          setSelectedArtist(null, null);
           setView("home");
         }}
         className="flex items-center gap-2 text-white/40 hover:text-white/70 transition w-fit"
@@ -73,51 +76,51 @@ export default function PlaylistView() {
       <AnimatePresence mode="wait">
         {showSkeleton && (
           <motion.div key="skeleton" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <PlaylistSkeleton />
+            <ArtistSkeleton />
           </motion.div>
         )}
 
-        {!showSkeleton && playlist && (
+        {!showSkeleton && artist && (
           <motion.div
-            key={`playlist-${selectedPlaylistId}`}
+            key={`artist-${selectedArtistHandle}`}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            {/* Playlist Header */}
-            <div className="flex gap-6 items-end mb-8">
-              <div className="relative w-48 h-48 shrink-0 rounded-xl overflow-hidden">
-                <Image
-                  src={imgSrc || playlist.cover}
-                  alt={playlist.title}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                  onError={() => setImgSrc("/images/placeholder.jpg")}
-                />
-              </div>
-              <div className="flex-1">
-                <p className="text-xs tracking-widest uppercase font-semibold text-[#f91fc3]/80 mb-2">
-                  {playlist.isAlbum ? "Album" : "Playlist"}
-                </p>
-                <h1 className="text-4xl font-bold text-white mb-2">{playlist.title}</h1>
-                {playlist.description && (
-                  <p className="text-white/60 mb-4 line-clamp-2">{playlist.description}</p>
-                )}
-                <p className="text-sm text-white/40">
-                  By <span className="text-white/70 font-medium">{playlist.author}</span>
-                </p>
-                <div className="flex gap-4 mt-4 text-sm text-white/40">
-                  <span>{playlist.tracks.length} tracks</span>
-                  <span>{playlist.likes.toLocaleString()} likes</span>
-                  <span>{playlist.plays.toLocaleString()} plays</span>
+            {/* Artist Header */}
+            <div className="flex flex-col items-center gap-6 mb-8 text-center">
+              {profilePicUrl && (
+                <div className="relative w-40 h-40 rounded-full overflow-hidden ring-2 ring-[#f91fc3]/50">
+                  <Image
+                    src={imgSrc || profilePicUrl}
+                    alt={artist.name}
+                    fill
+                    className="object-cover"
+                    unoptimized
+                    onError={() => setImgSrc("/images/placeholder.jpg")}
+                  />
                 </div>
+              )}
+              <div>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <h1 className="text-4xl font-bold text-white">{artist.name}</h1>
+                  {artist.is_verified && (
+                    <HiCheckBadge size={28} className="text-[#f91fc3]" />
+                  )}
+                </div>
+                <p className="text-white/60 text-sm mb-2">@{artist.handle}</p>
+                {artist.bio && (
+                  <p className="text-white/50 text-sm max-w-md">{artist.bio}</p>
+                )}
+                <p className="text-white/40 text-sm mt-4">
+                  {artist.follower_count.toLocaleString()} followers
+                </p>
               </div>
             </div>
 
             {/* Tracks */}
-            {hasPlaylist && (
+            {hasTracks && (
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <p className="text-white/40 text-sm">
@@ -144,6 +147,12 @@ export default function PlaylistView() {
                     </motion.div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {!hasTracks && !tracksLoading && (
+              <div className="flex flex-col items-center justify-center py-24 gap-4">
+                <p className="text-white/40 text-lg">No tracks found</p>
               </div>
             )}
           </motion.div>
