@@ -109,15 +109,15 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      <div className="flex-1 min-h-0 flex flex-col justify-center bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
 
-        {/* Top: artwork + meta */}
+        {/* Top: artwork + meta — fills all available space */}
         <div
-          className="shrink-0 flex gap-8 items-center"
-          style={{ padding: isPlaylist ? "24px 24px 20px" : "32px 32px 28px" }}
+          className="flex-1 min-h-0 flex gap-8 items-center"
+          style={{ padding: isPlaylist ? "20px 24px" : "28px 32px" }}
         >
 
-          {/* Cover */}
+          {/* Cover — stretches to fill section height, capped at max */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTrack?.trackId ?? "art"}
@@ -125,10 +125,12 @@ export default function TrackPanel() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative rounded-2xl overflow-hidden shrink-0"
+              className="relative rounded-2xl overflow-hidden"
               style={{
-                width: isPlaylist ? 160 : "clamp(160px, 22vh, 280px)",
-                height: isPlaylist ? 160 : "clamp(160px, 22vh, 280px)",
+                alignSelf: "stretch",
+                aspectRatio: "1 / 1",
+                maxHeight: isPlaylist ? 200 : 280,
+                maxWidth: isPlaylist ? 200 : 280,
                 boxShadow: "0 16px 64px rgba(249,31,195,0.35), 0 0 0 1px rgba(249,31,195,0.12)",
               }}
             >
