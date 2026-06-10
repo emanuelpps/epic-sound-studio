@@ -19,7 +19,7 @@ export default function PlayerBackground({
         <div className="absolute inset-0 bg-gradient-to-b from-[#230f1e]/80 via-transparent to-[#230f1e]/90 z-10" />
       </div>
       <GlowBackground />
-      <div className={`relative z-10 w-full h-full ${childrenClasses}`}>
+      <div className={`relative z-10 w-full h-full overflow-hidden ${childrenClasses}`}>
         {children}
       </div>
       <CraftedBy />

@@ -97,7 +97,7 @@ export default function TrackPanel() {
   if (!trackData) return <TrackInfoSkeleton />;
 
   return (
-    <div className="h-full flex flex-col gap-4 w-full">
+    <div className="h-full min-h-0 flex flex-col gap-4 w-full">
 
       {/* ── Page header ────────────────────────────── */}
       <div className="relative pl-5 shrink-0">
@@ -109,15 +109,23 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      <div className="flex-1 min-h-0 flex flex-col bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+      {/* Outer flex item gives the grid a definite height via h-full */}
+      <div className="flex-1 min-h-0">
+      <div
+        className="h-full bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]"
+        style={{ display: "grid", gridTemplateRows: "minmax(0,1fr) auto 1px auto 13px auto minmax(0,1fr)" }}
+      >
 
-        {/* Top: artwork + meta — fills all available space */}
+        {/* Top spacer — centers the content block vertically */}
+        <div aria-hidden />
+
+        {/* Artwork + meta (auto = natural height) */}
         <div
-          className="flex-1 min-h-0 flex gap-8 items-center"
+          className="flex gap-8 items-center overflow-hidden"
           style={{ padding: isPlaylist ? "20px 24px" : "28px 32px" }}
         >
 
-          {/* Cover — stretches to fill section height, capped at max */}
+          {/* Cover */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTrack?.trackId ?? "art"}
@@ -125,12 +133,10 @@ export default function TrackPanel() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="relative rounded-2xl overflow-hidden"
+              className="relative rounded-2xl overflow-hidden shrink-0"
               style={{
-                alignSelf: "stretch",
-                aspectRatio: "1 / 1",
-                maxHeight: isPlaylist ? 200 : 280,
-                maxWidth: isPlaylist ? 200 : 280,
+                width: isPlaylist ? "clamp(120px, 18vh, 190px)" : "clamp(160px, 24vh, 280px)",
+                height: isPlaylist ? "clamp(120px, 18vh, 190px)" : "clamp(160px, 24vh, 280px)",
                 boxShadow: "0 16px 64px rgba(249,31,195,0.35), 0 0 0 1px rgba(249,31,195,0.12)",
               }}
             >
@@ -269,8 +275,8 @@ export default function TrackPanel() {
           </div>
         </div>
 
-        {/* Separator */}
-        <div className="shrink-0 h-px bg-white/[0.06] mt-3" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
+        {/* Separator — inside 13px row (1px visible + 12px gap before controls) */}
+        <div className="h-px bg-white/[0.06]" style={{ marginInline: isPlaylist ? "24px" : "32px" }} />
 
         {/* Controls ─────────────────────────────── */}
         <div className="shrink-0 pt-4 pb-5 flex flex-col gap-4" style={{ paddingInline: isPlaylist ? "24px" : "32px" }}>
@@ -372,6 +378,10 @@ export default function TrackPanel() {
             Space · ← → seek 5s
           </p>
         </div>
+
+        {/* Bottom spacer — centers the content block vertically */}
+        <div aria-hidden />
+      </div>
       </div>
     </div>
   );

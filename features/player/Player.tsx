@@ -13,8 +13,12 @@ export default function Player() {
       <CenterGlowBackground />
 
       {isPlaylist ? (
-        /* Two-column: track + queue — scrollable if content overflows */
-        <div className="relative z-10 grid grid-cols-[1fr_340px] grid-rows-[1fr] gap-6 px-6 pt-6 pb-10 h-full">
+        /* Two-column: track + queue.
+           minmax(0,…) on both axes removes the implicit `auto` minimum of
+           grid tracks (1fr === minmax(auto,1fr)) which would otherwise let
+           TrackPanel's min-content inflate the row past the viewport and clip
+           the controls. */
+        <div className="relative z-10 grid grid-cols-[minmax(0,1fr)_340px] grid-rows-[minmax(0,1fr)] gap-6 px-6 pt-6 pb-10 h-full">
           <TrackPanel />
           <QueuePanel />
         </div>
