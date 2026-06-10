@@ -12,10 +12,8 @@ import { handlePrev } from "@/lib/functions/handlePrev";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  HiSpeakerWave,
-  HiSpeakerXMark,
-  HiHeart,
-  HiOutlineHeart,
+  HiSpeakerWave, HiSpeakerXMark,
+  HiHeart, HiOutlineHeart,
   HiArrowTopRightOnSquare,
 } from "react-icons/hi2";
 import { TbRepeat, TbRepeatOnce, TbArrowsShuffle } from "react-icons/tb";
@@ -46,9 +44,10 @@ export default function TrackPanel() {
   const duration     = usePlayerStore((s) => s.duration);
   const likedTracks  = usePlayerStore((s) => s.likedTracks);
   const currentPlaylistTitle = usePlayerStore((s) => s.currentPlaylist?.title ?? "");
-  const play         = usePlayerStore((s) => s.play);
-  const toggle       = usePlayerStore((s) => s.toggle);
-  const setVolume    = usePlayerStore((s) => s.setVolume);
+
+  const play          = usePlayerStore((s) => s.play);
+  const toggle        = usePlayerStore((s) => s.toggle);
+  const setVolume     = usePlayerStore((s) => s.setVolume);
   const toggleShuffle = usePlayerStore((s) => s.toggleShuffle);
   const toggleRepeat  = usePlayerStore((s) => s.toggleRepeat);
   const toggleLike    = usePlayerStore((s) => s.toggleLike);
@@ -66,19 +65,13 @@ export default function TrackPanel() {
   const trackId      = trackData?.id ?? "";
   const isLiked      = likedTracks.has(trackId);
   const artwork      = imgSrc ?? trackData?.artwork?.["480x480"] ?? trackData?.artwork?.["150x150"] ?? "/images/placeholder.jpg";
-  const artistId     = trackData?.user?.id ?? "";
   const artistHandle = trackData?.user?.handle ?? "";
+  const artistId     = trackData?.user?.id ?? "";
 
   const handleTogglePlay = () => {
     if (!trackData) return;
     if (isLoaded) toggle();
     else handlePlay(trackData.id, trackData.title, trackData.user.name, play);
-  };
-
-  const handleArtistClick = () => {
-    if (!artistHandle || !artistId) return;
-    setSelectedArtist(artistHandle, artistId);
-    setView("artist");
   };
 
   useEffect(() => {
@@ -88,13 +81,13 @@ export default function TrackPanel() {
       if (e.code === "Space") { e.preventDefault(); handleTogglePlay(); }
       if (e.code === "ArrowRight") {
         e.preventDefault();
-        const audio = document.querySelector("audio") as HTMLAudioElement;
-        if (audio) audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
+        const a = document.querySelector("audio") as HTMLAudioElement;
+        if (a) a.currentTime = Math.min(a.currentTime + 5, a.duration);
       }
       if (e.code === "ArrowLeft") {
         e.preventDefault();
-        const audio = document.querySelector("audio") as HTMLAudioElement;
-        if (audio) audio.currentTime = Math.max(audio.currentTime - 5, 0);
+        const a = document.querySelector("audio") as HTMLAudioElement;
+        if (a) a.currentTime = Math.max(a.currentTime - 5, 0);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -103,13 +96,10 @@ export default function TrackPanel() {
 
   if (!trackData) return <TrackInfoSkeleton />;
 
-  /* Cover size: bigger when no playlist sidebar */
-  const coverSize = isPlaylist ? "w-40 h-40" : "w-56 h-56";
-
   return (
-    <div className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col gap-4 w-full">
 
-      {/* ── Header ─────────────────────────────────── */}
+      {/* ── Page header ────────────────────────────── */}
       <div className="relative pl-5">
         <span className="absolute left-0 top-1 bottom-1 w-[5px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />
         <h1 className="text-xl font-bold tracking-wide text-white uppercase">Now Playing</h1>
@@ -118,26 +108,32 @@ export default function TrackPanel() {
         </p>
       </div>
 
-      {/* ── Top card: artwork + meta ───────────────── */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
-        <div className="flex gap-6 items-start">
+      {/* ── Single unified player card ─────────────── */}
+      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]">
+
+        {/* Top: artwork + meta ───────────────────── */}
+        <div className="flex gap-6 p-6 items-center">
 
           {/* Cover */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTrack?.trackId ?? "art"}
-              initial={{ opacity: 0, scale: 0.92 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.92 }}
+              exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className={`relative ${coverSize} rounded-2xl overflow-hidden shrink-0`}
-              style={{ boxShadow: "0 8px 40px rgba(249,31,195,0.25), 0 0 0 1px rgba(249,31,195,0.1)" }}
+              className="relative rounded-2xl overflow-hidden shrink-0"
+              style={{
+                width: isPlaylist ? 160 : 200,
+                height: isPlaylist ? 160 : 200,
+                boxShadow: "0 12px 48px rgba(249,31,195,0.3), 0 0 0 1px rgba(249,31,195,0.12)",
+              }}
             >
               <Image
                 src={artwork}
                 alt={trackData.title}
                 fill
-                sizes="224px"
+                sizes="200px"
                 className="object-cover"
                 priority
                 onError={() => setImgSrc("/images/placeholder.jpg")}
@@ -145,86 +141,93 @@ export default function TrackPanel() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Meta */}
-          <div className="flex-1 min-w-0 flex flex-col gap-3 pt-1">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentTrack?.trackId ?? "meta"}
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.25 }}
-                className="flex flex-col gap-1"
-              >
-                <h2 className="text-2xl font-bold text-white leading-tight line-clamp-2" title={trackData.title}>
+          {/* Meta ─────────────────────────────────── */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentTrack?.trackId ?? "meta"}
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.25 }}
+              className="flex-1 min-w-0 flex flex-col gap-3"
+            >
+              <div>
+                <h2
+                  className="font-bold text-white leading-tight line-clamp-2 mb-1"
+                  style={{ fontSize: isPlaylist ? "1.4rem" : "1.75rem" }}
+                  title={trackData.title}
+                >
                   {trackData.title}
                 </h2>
                 <button
-                  onClick={handleArtistClick}
+                  onClick={() => {
+                    if (artistHandle && artistId) {
+                      setSelectedArtist(artistHandle, artistId);
+                      setView("artist");
+                    }
+                  }}
                   disabled={!artistHandle}
-                  className="text-sm text-white/50 hover:text-[#f91fc3] transition w-fit flex items-center gap-1 group"
+                  className="text-sm text-white/50 hover:text-[#f91fc3] transition w-fit flex items-center gap-1 group disabled:pointer-events-none"
                 >
                   {trackData.user.name}
                   {artistHandle && (
                     <HiArrowTopRightOnSquare className="text-xs opacity-0 group-hover:opacity-60 transition" />
                   )}
                 </button>
-              </motion.div>
-            </AnimatePresence>
+              </div>
 
-            {/* Stats */}
-            <div className="flex gap-5 mt-1">
-              <span className="flex items-center gap-1.5 text-xs text-white/30">
-                <span className="text-white/50">▶</span>
-                {fmt(trackData.play_count ?? 0)}
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-white/30">
-                <span className="text-[#f91fc3]/60">♥</span>
-                {fmt(trackData.favorite_count ?? 0)}
-              </span>
-              <span className="flex items-center gap-1.5 text-xs text-white/30">
-                <span className="text-white/50">↺</span>
-                {fmt(trackData.repost_count ?? 0)}
-              </span>
-            </div>
+              {/* Stats */}
+              <div className="flex gap-4">
+                <span className="flex items-center gap-1.5 text-xs text-white/35">
+                  <span className="text-white/50 text-[10px]">▶</span>
+                  {fmt(trackData.play_count ?? 0)}
+                </span>
+                <span className="flex items-center gap-1.5 text-xs text-white/35">
+                  <span className="text-[#f91fc3]/60 text-[10px]">♥</span>
+                  {fmt(trackData.favorite_count ?? 0)}
+                </span>
+                <span className="flex items-center gap-1.5 text-xs text-white/35">
+                  <span className="text-white/50 text-[10px]">↺</span>
+                  {fmt(trackData.repost_count ?? 0)}
+                </span>
+              </div>
 
-            {/* Genre chip */}
-            {trackData.genre && (
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-[#f91fc3]/60 border border-[#f91fc3]/20 rounded-full px-3 py-0.5 w-fit">
-                {trackData.genre}
-              </span>
-            )}
-
-            {/* Like */}
-            <button
-              onClick={() => { if (trackId) toggleLike(trackId); }}
-              className={`mt-auto flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border transition w-fit ${
-                isLiked
-                  ? "bg-[#f91fc3]/15 border-[#f91fc3]/50 text-[#f91fc3]"
-                  : "bg-white/5 border-white/10 text-white/50 hover:border-[#f91fc3]/40 hover:text-[#f91fc3]/80"
-              }`}
-            >
-              {isLiked ? <HiHeart className="text-base" /> : <HiOutlineHeart className="text-base" />}
-              {isLiked ? "Liked" : "Like"}
-            </button>
-          </div>
+              {/* Genre + Like row */}
+              <div className="flex items-center gap-3 flex-wrap">
+                {trackData.genre && (
+                  <span className="text-[10px] font-semibold tracking-widest uppercase text-[#f91fc3]/60 border border-[#f91fc3]/20 rounded-full px-3 py-1">
+                    {trackData.genre}
+                  </span>
+                )}
+                <button
+                  onClick={() => { if (trackId) toggleLike(trackId); }}
+                  className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full border transition ${
+                    isLiked
+                      ? "bg-[#f91fc3]/15 border-[#f91fc3]/50 text-[#f91fc3]"
+                      : "bg-white/5 border-white/10 text-white/40 hover:border-[#f91fc3]/40 hover:text-[#f91fc3]/70"
+                  }`}
+                >
+                  {isLiked ? <HiHeart size={12} /> : <HiOutlineHeart size={12} />}
+                  {isLiked ? "Liked" : "Like"}
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
-      </div>
 
-      {/* ── Bottom card: waveform + controls + volume ─ */}
-      <div className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 rounded-3xl px-6 pt-6 pb-5 shadow-[0_0_40px_rgba(249,31,195,0.06)] flex flex-col gap-5">
+        {/* Separator */}
+        <div className="h-px bg-white/[0.06] mx-6" />
 
-        {/* Waveform */}
-        <div>
-          <div className="relative w-full">
+        {/* Waveform + time ───────────────────────── */}
+        <div className="px-6 pt-5 pb-2">
+          <div className="relative">
             <AnimatePresence>
               {!wavesReady && (
                 <motion.div
-                  key="wave-loader"
+                  key="loader"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
                   <DotsGlowLoader />
@@ -238,115 +241,115 @@ export default function TrackPanel() {
               />
             </motion.div>
           </div>
-          {/* Time */}
-          <div className="flex justify-between text-xs text-white/30 font-mono px-0.5 mt-1">
+          <div className="flex justify-between text-xs text-white/25 font-mono mt-1.5 px-0.5">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-white/[0.06]" />
+        {/* Separator */}
+        <div className="h-px bg-white/[0.06] mx-6 mt-3" />
 
-        {/* Controls */}
-        <div className="flex items-center justify-center gap-5">
-          <button
-            onClick={toggleShuffle}
-            title="Shuffle"
-            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
-              shuffle
-                ? "text-[#f91fc3] bg-[#f91fc3]/10 border border-[#f91fc3]/30"
-                : "text-white/30 hover:text-white/70 border border-transparent"
-            }`}
-          >
-            <TbArrowsShuffle size={18} />
-          </button>
+        {/* Controls ─────────────────────────────── */}
+        <div className="px-6 pt-4 pb-5 flex flex-col gap-4">
 
-          <button
-            onClick={handlePrev}
-            disabled={!isPlaylist}
-            title="Previous"
-            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            <IoPlaySkipBack size={20} />
-          </button>
+          {/* Main row */}
+          <div className="flex items-center justify-center gap-6">
 
-          {/* Play / Pause — botón principal */}
-          <button
-            onClick={handleTogglePlay}
-            disabled={!trackData || isLoading}
-            title={isPlaying ? "Pause" : "Play"}
-            className="w-14 h-14 rounded-full flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed border-2 border-[#f91fc3] hover:bg-[#f91fc3]/10 active:scale-95"
-            style={{ boxShadow: "0 0 24px rgba(249,31,195,0.35)" }}
-          >
-            {isLoading ? (
-              <span className="w-5 h-5 border-2 border-[#f91fc3] border-t-transparent rounded-full animate-spin" />
-            ) : isPlaying && isLoaded ? (
-              <RiPauseFill size={24} className="text-[#f91fc3]" />
-            ) : (
-              <RiPlayFill size={24} className="text-[#f91fc3] ml-0.5" />
-            )}
-          </button>
+            <button
+              onClick={toggleShuffle}
+              title="Shuffle"
+              className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
+                shuffle
+                  ? "text-[#f91fc3] bg-[#f91fc3]/10 border border-[#f91fc3]/30"
+                  : "text-white/25 hover:text-white/60 border border-transparent hover:bg-white/5"
+              }`}
+            >
+              <TbArrowsShuffle size={18} />
+            </button>
 
-          <button
-            onClick={handleNext}
-            disabled={!isPlaylist}
-            title="Next"
-            className="w-10 h-10 flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
-          >
-            <IoPlaySkipForward size={20} />
-          </button>
+            <button
+              onClick={handlePrev}
+              disabled={!isPlaylist}
+              title="Previous"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
+            >
+              <IoPlaySkipBack size={22} />
+            </button>
 
-          <button
-            onClick={toggleRepeat}
-            title={repeat === "off" ? "Repeat off" : repeat === "one" ? "Repeat one" : "Repeat all"}
-            className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
-              repeat !== "off"
-                ? "text-[#f91fc3] bg-[#f91fc3]/10 border border-[#f91fc3]/30"
-                : "text-white/30 hover:text-white/70 border border-transparent"
-            }`}
-          >
-            {repeat === "one" ? <TbRepeatOnce size={18} /> : <TbRepeat size={18} />}
-          </button>
-        </div>
+            {/* Play/Pause — main CTA */}
+            <button
+              onClick={handleTogglePlay}
+              disabled={!trackData || isLoading}
+              title={isPlaying ? "Pause" : "Play"}
+              className="w-[60px] h-[60px] rounded-full flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 bg-[#f91fc3] hover:bg-[#ff3fd0]"
+              style={{ boxShadow: "0 0 32px rgba(249,31,195,0.5), 0 4px 16px rgba(0,0,0,0.4)" }}
+            >
+              {isLoading ? (
+                <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : isPlaying && isLoaded ? (
+                <RiPauseFill size={26} className="text-white" />
+              ) : (
+                <RiPlayFill size={26} className="text-white ml-0.5" />
+              )}
+            </button>
 
-        {/* Volume */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setVolume(volume > 0 ? 0 : 0.8)}
-            className="text-white/30 hover:text-white/70 transition shrink-0"
-          >
-            {volume === 0 ? <HiSpeakerXMark size={18} /> : <HiSpeakerWave size={18} />}
-          </button>
-          <div className="relative flex-1 h-1 group cursor-pointer">
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-            />
-            <div className="absolute inset-0 bg-white/10 rounded-full" />
-            <div
-              className="absolute inset-y-0 left-0 bg-[#f91fc3] rounded-full transition-[width] duration-75"
-              style={{ width: `${volume * 100}%` }}
-            />
-            <div
-              className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_6px_rgba(249,31,195,0.6)]"
-              style={{ left: `calc(${volume * 100}% - 6px)` }}
-            />
+            <button
+              onClick={handleNext}
+              disabled={!isPlaylist}
+              title="Next"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-white/40 hover:text-white hover:bg-white/5 transition disabled:opacity-20 disabled:cursor-not-allowed"
+            >
+              <IoPlaySkipForward size={22} />
+            </button>
+
+            <button
+              onClick={toggleRepeat}
+              title={repeat === "off" ? "Repeat off" : repeat === "one" ? "Repeat one" : "Repeat all"}
+              className={`w-9 h-9 flex items-center justify-center rounded-full transition-all ${
+                repeat !== "off"
+                  ? "text-[#f91fc3] bg-[#f91fc3]/10 border border-[#f91fc3]/30"
+                  : "text-white/25 hover:text-white/60 border border-transparent hover:bg-white/5"
+              }`}
+            >
+              {repeat === "one" ? <TbRepeatOnce size={18} /> : <TbRepeat size={18} />}
+            </button>
           </div>
-          <span className="text-xs text-white/30 font-mono w-7 text-right shrink-0">
-            {Math.round(volume * 100)}
-          </span>
-        </div>
 
-        {/* Keyboard hint */}
-        <p className="text-center text-[10px] text-white/15 tracking-widest select-none uppercase -mt-1">
-          Space · ← → seek 5s
-        </p>
+          {/* Volume row */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setVolume(volume > 0 ? 0 : 0.8)}
+              className="text-white/25 hover:text-white/60 transition shrink-0"
+            >
+              {volume === 0 ? <HiSpeakerXMark size={17} /> : <HiSpeakerWave size={17} />}
+            </button>
+            <div className="relative flex-1 h-1 group cursor-pointer">
+              <input
+                type="range" min="0" max="1" step="0.01" value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              <div className="absolute inset-0 bg-white/10 rounded-full" />
+              <div
+                className="absolute inset-y-0 left-0 bg-[#f91fc3] rounded-full transition-[width] duration-75"
+                style={{ width: `${volume * 100}%` }}
+              />
+              <div
+                className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_8px_rgba(249,31,195,0.7)]"
+                style={{ left: `calc(${volume * 100}% - 6px)` }}
+              />
+            </div>
+            <span className="text-[11px] text-white/25 font-mono w-7 text-right shrink-0">
+              {Math.round(volume * 100)}
+            </span>
+          </div>
+
+          {/* Keyboard hint */}
+          <p className="text-center text-[10px] text-white/15 tracking-widest select-none uppercase -mb-1">
+            Space · ← → seek 5s
+          </p>
+        </div>
       </div>
     </div>
   );
