@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function CraftedBy() {
   return (
-    <div className="absolute z-20 bottom-2 right-6">
+    <div className="hidden md:block absolute z-20 bottom-2 right-6">
       <div
         className="flex items-center gap-2 px-3 py-0.5 rounded-full text-[0.6rem]
         text-white/75 backdrop-blur-md bg-white/5 border border-white/10 shadow-[0_0_18px_rgba(249,31,195,0.08)] hover:shadow-[0_0_22px_rgba(249,31,195,0.18)] transition"

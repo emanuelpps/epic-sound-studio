@@ -49,7 +49,7 @@ export default function ArtistView() {
 
   if (!selectedArtistHandle) {
     return (
-      <div className="flex flex-col gap-8 p-6 min-h-screen">
+      <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 h-full overflow-y-auto overflow-x-hidden pb-24 md:pb-8">
         <p className="text-white/40">No artist selected</p>
       </div>
     );
@@ -60,7 +60,7 @@ export default function ArtistView() {
   const profilePicUrl = artist?.profile_picture?.["480x480"] || artist?.profile_picture?.["150x150"];
 
   return (
-    <div className="flex flex-col gap-8 p-6 min-h-screen">
+    <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 h-full overflow-y-auto overflow-x-hidden pb-24 md:pb-8">
       {/* Header */}
       <button
         onClick={() => {

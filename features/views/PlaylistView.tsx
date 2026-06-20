@@ -29,11 +29,11 @@ function fmtTime(s: number) {
 /* ── skeleton ─────────────────────────────────────────── */
 function PlaylistSkeleton() {
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-6 p-4 sm:p-6">
       <GlowSkeleton className="w-24 h-4 rounded-full" />
-      <div className="rounded-3xl overflow-hidden bg-[#120914]/60 p-8">
-        <div className="flex gap-8 items-end">
-          <GlowSkeleton className="w-52 h-52 rounded-2xl shrink-0" />
+      <div className="rounded-3xl overflow-hidden bg-[#120914]/60 p-5 sm:p-8">
+        <div className="flex flex-col sm:flex-row gap-5 sm:gap-8 items-center sm:items-end">
+          <GlowSkeleton className="w-40 h-40 sm:w-52 sm:h-52 rounded-2xl shrink-0" />
           <div className="flex-1 flex flex-col gap-4 pb-2">
             <GlowSkeleton className="w-24 h-3 rounded-full" />
             <GlowSkeleton className="w-3/4 h-10 rounded-xl" />
@@ -225,7 +225,7 @@ export default function PlaylistView() {
         className="h-full overflow-y-auto"
         style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(249,31,195,0.15) transparent" }}
       >
-        <div className="p-6 flex flex-col gap-6">
+        <div className="p-4 sm:p-6 pb-24 md:pb-6 flex flex-col gap-6">
 
           {/* ── Back button ─── */}
           <motion.button
@@ -263,14 +263,14 @@ export default function PlaylistView() {
             )}
 
             {/* Hero content */}
-            <div className="relative z-10 p-8 flex gap-8 items-end flex-wrap">
+            <div className="relative z-10 p-5 sm:p-8 flex flex-col items-center text-center sm:flex-row sm:items-end sm:text-left gap-5 sm:gap-8">
 
               {/* Artwork */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
-                className="relative w-52 h-52 rounded-2xl overflow-hidden shrink-0"
+                className="relative w-40 h-40 sm:w-52 sm:h-52 rounded-2xl overflow-hidden shrink-0"
                 style={{ boxShadow: "0 20px 80px rgba(249,31,195,0.4), 0 0 0 1px rgba(249,31,195,0.15)" }}
               >
                 <Image
@@ -290,7 +290,7 @@ export default function PlaylistView() {
                 initial={{ opacity: 0, x: 12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.15 }}
-                className="flex-1 min-w-0 flex flex-col gap-3 pb-1"
+                className="w-full sm:flex-1 min-w-0 flex flex-col items-center sm:items-start gap-3 pb-1"
               >
                 {/* Type badge */}
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#f91fc3]/60">

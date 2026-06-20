@@ -73,7 +73,7 @@ export default function LibraryView() {
   const hasLikes = likedTrackIds.length > 0;
 
   return (
-    <div className="flex flex-col gap-8 p-6 min-h-screen">
+    <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 h-full overflow-y-auto overflow-x-hidden pb-24 md:pb-8">
       {/* Header */}
       <div className="flex flex-col gap-2">
         <div className="relative pl-5">

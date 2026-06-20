@@ -46,26 +46,27 @@ export function TrackCard({ trackId, image, title, artist, artistHandle, artistI
 
   return (
     <div
-      className="group w-52 cursor-pointer"
+      className="group w-full cursor-pointer"
       onClick={() => handlePlay(trackId, title, artist, play)}
     >
       <div className="relative rounded-xl overflow-hidden">
         <Image
           alt={title}
           src={imgSrc || image}
-          width={100}
-          height={100}
-          className="w-full h-50 object-cover group-hover:scale-105 transition"
+          width={300}
+          height={300}
+          className="w-full aspect-square object-cover group-hover:scale-105 transition"
           unoptimized
           onError={() => setImgSrc("/images/placeholder.jpg")}
         />
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition" />
-        <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition bg-fuchsia-600 rounded-full w-10 h-10 shadow-lg flex items-center justify-center">
+        <div className="absolute bottom-3 right-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition bg-fuchsia-600 rounded-full w-10 h-10 shadow-lg flex items-center justify-center">
           <PlayIcon className="text-white text-sm ml-1" />
         </div>
         <button
           onClick={handleLikeClick}
-          className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition bg-black/60 hover:bg-black/80 rounded-full w-10 h-10 shadow-lg flex items-center justify-center backdrop-blur-sm"
+          aria-label={isLiked ? "Unlike" : "Like"}
+          className="absolute top-3 right-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition bg-black/60 hover:bg-black/80 rounded-full w-10 h-10 shadow-lg flex items-center justify-center backdrop-blur-sm"
         >
           {isLiked ? (
             <FaHeart size={16} className="text-[#f91fc3]" />

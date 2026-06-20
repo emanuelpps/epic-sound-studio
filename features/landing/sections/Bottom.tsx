@@ -1,6 +1,6 @@
 export default function Bottom() {
   return (
-    <footer className="mt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-500 uppercase tracking-widest px-4">
+    <footer className="mt-8 sm:mt-12 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-500 uppercase tracking-widest px-4">
 
       <div>© 2024 EPIC SOUND STUDIO. ALL RIGHTS RESERVED.</div>
 

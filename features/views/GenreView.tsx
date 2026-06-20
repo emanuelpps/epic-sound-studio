@@ -47,7 +47,7 @@ export default function GenreView() {
 
   if (!selectedGenre) {
     return (
-      <div className="flex flex-col gap-8 p-6 min-h-screen">
+      <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 h-full overflow-y-auto overflow-x-hidden pb-24 md:pb-8">
         <p className="text-white/40">No genre selected</p>
       </div>
     );
@@ -58,7 +58,7 @@ export default function GenreView() {
   const showResults = !showSkeleton && data && data.length > 0;
 
   return (
-    <div className="flex flex-col gap-8 p-6 min-h-screen">
+    <div className="flex flex-col gap-6 sm:gap-8 p-4 sm:p-6 h-full overflow-y-auto overflow-x-hidden pb-24 md:pb-8">
       {/* Header */}
       <div className="flex flex-col gap-4">
         <button

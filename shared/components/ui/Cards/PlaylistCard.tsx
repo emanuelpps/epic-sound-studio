@@ -18,7 +18,12 @@ export function PlaylistMiniCard({
   onClick,
 }: PlaylistMiniCardProps) {
   const [imgSrc, setImgSrc] = useState<string | null>(null);
-  const likesRounded = Math.round(Number(likes)).toLocaleString();
+  const likesLabel =
+    likes >= 1_000_000
+      ? `${(likes / 1_000_000).toFixed(1)}M`
+      : likes >= 1_000
+      ? `${(likes / 1_000).toFixed(1)}K`
+      : String(Math.round(likes || 0));
   return (
     <div
       onClick={onClick}
@@ -27,25 +32,21 @@ export function PlaylistMiniCard({
       <Image
         alt={title}
         src={imgSrc || image}
-        className="w-15 h-15 rounded-lg object-cover"
+        className="w-14 h-14 rounded-lg object-cover shrink-0"
         width={100}
         height={100}
         onError={() => setImgSrc("/images/placeholder.jpg")}
       />
-      <div>
-        <p className="text-sm text-white">{title}</p>
-        <div className="flex justify-evenly gap-2">
-          <p className="flex justify-center  items-center gap-1 text-xs text-gray-400">
-            <span>
-              <MdQueueMusic />
-            </span>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm text-white truncate">{title}</p>
+        <div className="flex items-center gap-4 mt-0.5">
+          <p className="flex items-center gap-1 text-xs text-gray-400">
+            <MdQueueMusic />
             {tracks} tracks
           </p>
-          <p className="flex justify-center  items-center gap-1 text-xs text-gray-400">
-            <span>
-              <FaHeart />
-            </span>
-            {likesRounded.slice(0, 3) + "K"}
+          <p className="flex items-center gap-1 text-xs text-gray-400">
+            <FaHeart />
+            {likesLabel}
           </p>
         </div>
       </div>

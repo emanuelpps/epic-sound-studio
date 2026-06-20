@@ -16,7 +16,16 @@ export default function HomeView() {
       </main>
     );
 
-  if (error || !data || data.length === 0) return <div>No featured track</div>;
+  if (error || !data || data.length === 0)
+    return (
+      <main className="flex flex-col gap-6">
+        <SearchBar />
+        <div className="flex flex-col items-center justify-center gap-2 rounded-3xl border border-white/10 bg-[#120914]/60 px-6 py-16 text-center">
+          <p className="text-lg font-semibold text-white/80">No featured track right now</p>
+          <p className="text-sm text-white/40">Trending data is unavailable — try again in a moment.</p>
+        </div>
+      </main>
+    );
 
   const ui = mapTrackToUI(data[0]);
 

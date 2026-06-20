@@ -8,7 +8,9 @@ export type View =
   | "player"
   | "genre"
   | "playlist"
-  | "artist";
+  | "artist"
+  | "chart"
+  | "profile";
 
 type UIState = {
   view: View;

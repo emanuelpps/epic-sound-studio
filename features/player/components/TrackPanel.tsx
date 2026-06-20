@@ -97,7 +97,7 @@ export default function TrackPanel() {
   if (!trackData) return <TrackInfoSkeleton />;
 
   return (
-    <div className="h-full min-h-0 flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 sm:gap-4 w-full lg:h-full lg:min-h-0">
 
       {/* ── Page header ────────────────────────────── */}
       <div className="relative pl-5 shrink-0">
@@ -109,20 +109,24 @@ export default function TrackPanel() {
       </div>
 
       {/* ── Single unified player card ─────────────── */}
-      {/* Outer flex item gives the grid a definite height via h-full */}
-      <div className="flex-1 min-h-0">
+      {/* Desktop: outer flex item + h-full give the grid a definite height so
+          the minmax(0,1fr) spacers center the content. Mobile: no h-full →
+          grid has no definite height → spacers collapse to 0 → card takes its
+          natural content height and the page scrolls. Same markup, both modes. */}
+      <div className="lg:flex-1 lg:min-h-0">
       <div
-        className="h-full bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]"
+        className="lg:h-full bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(249,31,195,0.08)]"
         style={{ display: "grid", gridTemplateRows: "minmax(0,1fr) auto 1px auto 13px auto minmax(0,1fr)" }}
       >
 
         {/* Top spacer — centers the content block vertically */}
         <div aria-hidden />
 
-        {/* Artwork + meta (auto = natural height) */}
+        {/* Artwork + meta (auto = natural height). Stacks on mobile. */}
         <div
-          className="flex gap-8 items-center overflow-hidden"
-          style={{ padding: isPlaylist ? "20px 24px" : "28px 32px" }}
+          className={`flex flex-col sm:flex-row gap-5 sm:gap-8 items-center overflow-hidden p-5 ${
+            isPlaylist ? "sm:px-6 sm:py-5" : "sm:px-8 sm:py-7"
+          }`}
         >
 
           {/* Cover */}
@@ -160,7 +164,7 @@ export default function TrackPanel() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.25 }}
-              className="flex-1 min-w-0 flex flex-col justify-center"
+              className="flex-1 min-w-0 flex flex-col justify-center items-center text-center sm:items-start sm:text-left"
               style={{ gap: isPlaylist ? "12px" : "16px" }}
             >
               <div>

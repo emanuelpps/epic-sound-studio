@@ -30,11 +30,11 @@ export default function MusicGenresSection() {
   if (!genres.length) return null;
 
   return (
-    <section className="col-span-2 rounded-3xl bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
+    <section className="lg:col-span-2 rounded-3xl bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-4 sm:p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)]">
       <div className="mb-8 relative pl-5 flex items-center justify-between">
         <div className="flex flex-col">
           <span className="absolute left-0 top-1 bottom-1 w-[6px] rounded-full bg-[#f91fc3] shadow-[0_0_12px_rgba(249,31,195,0.9),0_0_24px_rgba(249,31,195,0.4)]" />
-          <h2 className="text-2xl font-semibold uppercase tracking-wide text-white">
+          <h2 className="text-xl sm:text-2xl font-semibold uppercase tracking-wide text-white">
             Music Genres
           </h2>
           <p className="text-sm text-white/50 mt-1">Discover tracks by style</p>

@@ -22,7 +22,7 @@ export default function QueuePanel() {
   const currentIdx = tracks.findIndex((t) => t.trackId === currentTrack?.trackId);
 
   return (
-    <aside className="h-full flex flex-col gap-4">
+    <aside className="flex flex-col gap-3 sm:gap-4 lg:h-full">
 
       {/* Header */}
       <div className="relative pl-5 shrink-0">
@@ -31,10 +31,10 @@ export default function QueuePanel() {
         <p className="text-sm text-white/40 mt-0.5">{tracks.length} tracks</p>
       </div>
 
-      {/* Track list */}
-      <div className="flex-1 min-h-0 bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(249,31,195,0.06)]">
+      {/* Track list — on mobile capped height with own scroll; on desktop fills the panel */}
+      <div className="lg:flex-1 lg:min-h-0 bg-[#120914]/60 backdrop-blur-md rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(249,31,195,0.06)]">
         <div
-          className="h-full flex flex-col overflow-y-auto"
+          className="flex flex-col max-h-[55vh] overflow-y-auto lg:max-h-none lg:h-full"
           style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(249,31,195,0.2) transparent" }}
         >
           {tracks.map((track, i) => {

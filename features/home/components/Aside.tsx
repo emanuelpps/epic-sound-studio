@@ -10,7 +10,7 @@ export default function Aside() {
   const setView = useUIStore((s) => s.setView);
   if (isLoading) {
     return (
-      <aside className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)] rounded-2xl mt-4">
+      <aside className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-4 sm:p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)] rounded-2xl lg:mt-4">
         <div className="flex flex-col gap-3">
           {Array.from({ length: 5 }).map((_, i) => (
             <PlaylistMiniCardSkeleton key={i} />
@@ -27,7 +27,7 @@ export default function Aside() {
   const trendingPlaylists = data.slice(0, 5);
 
   return (
-    <aside className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)] rounded-2xl mt-4">
+    <aside className="bg-[#120914]/60 backdrop-blur-md border border-[#f91fc3]/15 p-4 sm:p-6 shadow-[0_0_40px_rgba(249,31,195,0.06)] rounded-2xl lg:mt-4">
       <div className="mb-6 relative flex gap-2 justify-start items-center">
         <IoTrendingUpSharp className="text-[#f91fc3] text-2xl filter drop-shadow-[0_0_6px_#f91fc3] drop-shadow-[0_0_14px_#f91fc3] drop-shadow-[0_0_28px_rgba(249,31,195,0.9)]" />
         <h2 className="text-lg font-semibold uppercase tracking-wide text-white">

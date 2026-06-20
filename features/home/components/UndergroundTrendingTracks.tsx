@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { useUndergroundTrendingTracks } from "@/queries/useUndergroundTrendingTracks";
+import { useUIStore } from "@/stores/uiStore";
 import { mapTrackToUI } from "@/services/mappers";
 import { TrackCard } from "@/shared/components/ui/Cards/TrackCard";
 import { TrendingSectionSkeleton } from "@/shared/components/ui/Skeletons/TrendingSelectionSkeleton";
@@ -12,6 +13,7 @@ import formatNumber from "@/lib/utils/formatNumber";
 
 export default function UndergroundTrendingTracks() {
   const { data, isLoading, error } = useUndergroundTrendingTracks();
+  const setView = useUIStore((s) => s.setView);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
@@ -31,7 +33,7 @@ export default function UndergroundTrendingTracks() {
   const uiTracks = data.map(mapTrackToUI);
 
   return (
-    <section className="col-span-2 rounded-3xl bg-gradient-to-br from-[#120914]/70 to-[#09050a]/80 backdrop-blur-md border border-[#f91fc3]/15 p-6 shadow-[0_0_50px_rgba(249,31,195,0.08)] mb-12">
+    <section className="lg:col-span-2 rounded-3xl bg-gradient-to-br from-[#120914]/70 to-[#09050a]/80 backdrop-blur-md border border-[#f91fc3]/15 p-4 sm:p-6 shadow-[0_0_50px_rgba(249,31,195,0.08)] mb-4 lg:mb-12">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <div className="h-12 w-12 rounded-2xl bg-[#f91fc3]/10 border border-[#f91fc3]/30 flex items-center justify-center shadow-[0_0_20px_rgba(249,31,195,0.35)]">
@@ -46,7 +48,7 @@ export default function UndergroundTrendingTracks() {
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="hidden sm:flex gap-2">
           <button
             onClick={() => scroll("left")}
             className="border border-gray-800 rounded-full h-10 w-10 p-2 hover:border-[#f91fc3]/50 transition cursor-pointer"
@@ -93,9 +95,12 @@ export default function UndergroundTrendingTracks() {
       </div>
       <div className="mt-8 p-4 rounded-2xl bg-[#1a0d1c]/60 border border-white/10 text-xs text-white/60 flex justify-between items-center">
         <span>Updated hourly from emerging artists</span>
-        <span className="text-[#f91fc3] tracking-wider uppercase cursor-pointer hover:text-white transition">
+        <button
+          onClick={() => setView("chart")}
+          className="text-[#f91fc3] tracking-wider uppercase cursor-pointer hover:text-white transition"
+        >
           View chart →
-        </span>
+        </button>
       </div>
     </section>
   );

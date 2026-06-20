@@ -2,6 +2,7 @@ import { UiPlaylist } from "@/services/playlist/types";
 import { create } from "zustand";
 import { AudiusTrack } from "@/services/tracks/types";
 import { saveLikes, loadLikes } from "@/lib/localStorage";
+import { addDbLike, removeDbLike } from "@/services/likes/likesSync";
 
 export interface Track {
   trackId: string;
@@ -35,6 +36,7 @@ interface PlayerState {
   shuffle: boolean;
   repeat: RepeatMode;
   likedTracks: Set<string>;
+  currentUserId: string | null;
 
   setTrackData: (track: AudiusTrack | null) => void;
   setAudioRef: (el: HTMLAudioElement | null) => void;
@@ -56,6 +58,8 @@ interface PlayerState {
   toggleLike: (trackId: string) => void;
   isTrackLiked: (trackId: string) => boolean;
   initializeLikes: () => void;
+  setLikedTracks: (likes: Set<string>) => void;
+  setCurrentUserId: (id: string | null) => void;
 }
 
 export const usePlayerStore = create<PlayerState>((set, get) => ({
@@ -73,6 +77,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   shuffle: false,
   repeat: "off",
   likedTracks: new Set(),
+  currentUserId: null,
 
   setTrackData: (track) => set({ trackData: track }),
   setAudioRef: (el) => set({ audioRef: el }),
@@ -118,22 +123,31 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
     const idx = tracks.findIndex((t) => t.trackId === currentTrack.trackId);
     return tracks[(idx - 1 + tracks.length) % tracks.length];
   },
-  toggleLike: (trackId: string) =>
+  toggleLike: (trackId: string) => {
     set((s) => {
       const newLikes = new Set(s.likedTracks);
-      if (newLikes.has(trackId)) {
-        newLikes.delete(trackId);
-      } else {
-        newLikes.add(trackId);
-      }
+      if (newLikes.has(trackId)) newLikes.delete(trackId);
+      else newLikes.add(trackId);
       saveLikes(newLikes);
       return { likedTracks: newLikes };
-    }),
+    });
+    // Mirror to Supabase when signed in (fire-and-forget; localStorage stays the
+    // offline cache so the UI is always instant and works logged-out too).
+    const { currentUserId, likedTracks } = get();
+    if (currentUserId) {
+      if (likedTracks.has(trackId)) addDbLike(currentUserId, trackId);
+      else removeDbLike(currentUserId, trackId);
+    }
+  },
   isTrackLiked: (trackId: string) => {
     return get().likedTracks.has(trackId);
   },
   initializeLikes: () => {
-    const likes = loadLikes();
-    set({ likedTracks: likes });
+    // Only hydrate from localStorage when not signed in; the auth store owns
+    // the liked set once a session exists (DB ∪ local).
+    if (get().currentUserId) return;
+    set({ likedTracks: loadLikes() });
   },
+  setLikedTracks: (likes) => set({ likedTracks: likes }),
+  setCurrentUserId: (id) => set({ currentUserId: id }),
 }));

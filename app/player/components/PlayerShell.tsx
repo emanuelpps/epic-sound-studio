@@ -11,6 +11,8 @@ const PlayerView = lazy(() => import("@/features/views/PlayerView"));
 const GenreView = lazy(() => import("@/features/views/GenreView"));
 const PlaylistView = lazy(() => import("@/features/views/PlaylistView"));
 const ArtistView = lazy(() => import("@/features/views/ArtistView"));
+const ChartView = lazy(() => import("@/features/views/ChartView"));
+const ProfileView = lazy(() => import("@/features/views/ProfileView"));
 
 function ViewLoader() {
   return (
@@ -50,6 +52,8 @@ export default function PlayerShell() {
       {view === "genre"    && <GenreView />}
       {view === "playlist" && <PlaylistView />}
       {view === "artist"   && <ArtistView />}
+      {view === "chart"    && <ChartView />}
+      {view === "profile"  && <ProfileView />}
       {view === "home"     && <HomeView />}
     </Suspense>
   );
