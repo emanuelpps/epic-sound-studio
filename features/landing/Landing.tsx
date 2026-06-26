@@ -3,7 +3,7 @@ import LandingBackground from "@/shared/components/ui/Background/LandingBackgrou
 
 export default function Landing() {
   return (
-    <LandingBackground className="max-w-3xl py-12">
+    <LandingBackground className="max-w-3xl py-8 sm:py-12 px-4">
       <Container />
     </LandingBackground>
   );

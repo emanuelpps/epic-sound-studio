@@ -7,20 +7,27 @@ export async function handlePlay(
   artist: string,
   play: (t: Track) => void,
 ) {
-  const setIsLoading = usePlayerStore.getState().setIsLoading;
+  const { setIsLoading, trackData } = usePlayerStore.getState();
   setIsLoading(true);
   try {
     const streamUrl = await getTrackStreamUrl(trackId);
+    const artwork =
+      trackData?.artwork?.["480x480"] ??
+      trackData?.artwork?.["150x150"] ??
+      "";
     play({
-      trackId, title, artist, url: streamUrl,
-      cover: "",
-      description: "",
-      genre: "",
-      duration: 0,
-      plays: 0,
-      likes: 0,
-      reposts: 0,
-      artwork: ""
+      trackId,
+      title,
+      artist,
+      url: streamUrl,
+      cover: artwork,
+      artwork,
+      description: trackData?.description ?? "",
+      genre: trackData?.genre ?? "",
+      duration: trackData?.duration ?? 0,
+      plays: trackData?.play_count ?? 0,
+      likes: trackData?.favorite_count ?? 0,
+      reposts: trackData?.repost_count ?? 0,
     });
   } finally {
     setIsLoading(false);

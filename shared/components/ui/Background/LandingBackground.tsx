@@ -14,12 +14,12 @@ export default function LandingBackground({
     <main
       className={`
         bg-[#230f1e] text-white h-screen w-screen
-        flex items-center justify-center relative overflow-hidden
+        flex items-start sm:items-center justify-center relative overflow-y-auto
         font-display
       `}
       {...props}
     >
-      <div className="absolute inset-0 z-0">
+      <div className="fixed inset-0 z-0">
         <video
           className="w-full h-full object-cover opacity-60 blur-[2px] scale-105"
           autoPlay

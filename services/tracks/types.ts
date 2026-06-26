@@ -49,6 +49,8 @@ export interface UiTrack {
   id: string;
   title: string;
   artist: string;
+  artistId: string;
+  artistHandle: string;
   artwork: string;
   duration: number;
   plays: number;

@@ -7,7 +7,7 @@ import Logo from "../components/Logo";
 
 export default function Container() {
   return (
-    <GlassContainer className="p-8 md:p-20">
+    <GlassContainer className="p-6 sm:p-8 md:p-20">
       <Logo />
       <HeadLine />
       <Description />

@@ -8,7 +8,7 @@ import TrendingTracks from "./components/TrendingTracks";
 
 export default function Home() {
   return (
-    <section className="grid grid-cols-[1fr_350px] grid-rows-[580px_auto] gap-4 p-6">
+    <section className="h-full overflow-y-auto overflow-x-hidden grid grid-cols-1 lg:grid-cols-[1fr_350px] lg:grid-rows-[580px_auto] gap-4 p-4 sm:p-6 pb-28 md:pb-8">
       <Main />
       <Aside />
       <TrendingTracks />
